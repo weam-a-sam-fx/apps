@@ -110,7 +110,7 @@ if(tg>0){const goal=s*(1+tg/100),pr=(n-s)/(goal-s)*100;out.append(h('div',{class
 const trw=h('p',{class:'warn',style:'border:1px solid var(--gold);border-radius:10px;padding:8px'},Z2('tr'));const trs=()=>{trw.style.display=sel.value==='ftmo'?'':'none'};trs();sel.onchange=()=>{trs();const f=cur();if(f.id){iT.value=f.target??'';iL.value=f.daily??'';iM.value=pnum(f.dd)??''}calc()};
 return h('div',{class:'card',on:{input:calc}},h('b',{},FZ('trk')),h('label',{},FZ('tFirm')),sel,dS,dN,dD,h('div',{class:'grid2'},dT,dL),dM,out,trw,h('p',{class:'warn'},FZ('tWarn')),(()=>{setTimeout(calc);return h('span')})())}
 
-const APP={id:'fg',name:'Funded Guild',ver:'0.8',site:'https://sites.google.com/view/funded-guild',tabs:[
+const APP={id:'fg',name:'Funded Guild',ver:'0.9',site:'https://sites.google.com/view/funded-guild',tabs:[
 {id:'firms',render:async(el,arg)=>{const D=await (await fetch('data.json?'+Date.now()).catch(()=>fetch('data.json'))).json();const F0=D.firms.slice().sort((a,b)=>(b.score??-1)-(a.score??-1));
 if(arg==='~match')return matchView(el,F0);
 if(arg){const f=F0.find(x=>x.name===arg);if(f)return detail(el,f,F0.indexOf(f)+1)}
@@ -125,5 +125,6 @@ const tb=h('table',{class:'cmp'});const hd=h('tr',{},h('th',{}));F.forEach(f=>hd
 const r0=h('tr',{},h('td',{class:'mu'},X('score')));F.forEach(f=>r0.append(h('td',{dir:'ltr'},h('b',{},f.score))));tb.append(r0);
 ROWS.forEach(r=>{const tr=h('tr',{},h('td',{class:'mu',dir:'auto'},X(r)));F.forEach(f=>tr.append(h('td',{dir:'ltr'},FV(f)[r])));tb.append(tr)});
 el.append(h('div',{style:'overflow-x:auto;direction:ltr'},tb),h('p',{class:'warn'},'* '+X('card')),h('p',{class:'mu'},X('chk')),h('p',{class:'warn'},fxNote()),h('p',{class:'warn'},t('disclaimer')))}},
+{id:'trades',render:(e,a)=>tradesTab(e,a)},
 {id:'tools',render:async el=>{const D=await (await fetch('data.json')).json();el.append(tracker(D.firms),posCalc(),ddCalc())}},
 {id:'more',render:el=>{const ch=h('div');el.append(ch);changesView(ch,null,true);el.append(h('h2',{},t('offers')),h('div',{class:'card mu'},t('offersText'),h('br'),h('b',{},t('soon'))),h('a',{class:'btn',href:APP.site},t('website')),h('p',{class:'mu'},Z2('rf')));moreTab(el)}}]};
