@@ -1,4 +1,4 @@
-const APP={id:'wf',name:'WFX',ver:'0.2',tabs:[
+const APP={id:'wf',name:'WEAM FX',ver:'0.2',tabs:[
 {id:'home',render:async(el)=>{const D=await (await fetch('data.json')).json();const g=D.gold;
 el.append(h('div',{class:'card hero'},h('div',{class:'mu'},t('goldClose')+' | '+g.date),h('div',{class:'big'},'$'+fmt(g.close)),h('div',{class:'row mu'},h('span',{},t('high')+' '+fmt(g.high)),h('span',{},t('low')+' '+fmt(g.low))),h('div',{class:'mu'},t('source')+': '+g.src)),
 h('h2',{},t('liveChart')));const w=h('div',{style:'height:220px;border-radius:16px;overflow:hidden'});el.append(w);
