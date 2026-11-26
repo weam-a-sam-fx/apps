@@ -1,5 +1,5 @@
 /* Shared app core: i18n, router, UI helpers, tools. Each app supplies window.APP. */
-const BUILD='apps-v42';
+const BUILD='apps-v43';
 const LANGS=[['ar','العربية','rtl'],['en','English','ltr'],['fr','Français','ltr'],['es','Español','ltr'],['tr','Türkçe','ltr'],['fa','فارسی','rtl'],['ur','اردو','rtl'],['hi','हिन्दी','ltr']];
 const T={
 home:['الرئيسية','Home','Accueil','Inicio','Ana sayfa','خانه','ہوم','होम'],
