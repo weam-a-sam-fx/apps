@@ -138,5 +138,5 @@ const r0=h('tr',{},h('td',{class:'mu'},X('score')));F.forEach(f=>r0.append(h('td
 ROWS.forEach(r=>{const tr=h('tr',{},h('td',{class:'mu',dir:'auto'},X(r)));F.forEach(f=>tr.append(h('td',{dir:'ltr'},FV(f)[r])));tb.append(tr)});
 el.append(h('div',{style:'overflow-x:auto;direction:ltr'},tb),h('p',{class:'warn'},'* '+X('card')),h('p',{class:'mu'},X('chk')),h('p',{class:'warn'},fxNote()),h('p',{class:'warn'},t('disclaimer')))}},
 {id:'trades',render:(e,a)=>tradesTab(e,a)},
-{id:'tools',render:async el=>{const D=await (await fetch('data.json')).json();el.append(tracker(D.firms),posCalc(),ddCalc())}},
+{id:'tools',render:async el=>{const D=await (await fetch('data.json')).json();chartView(el,420);el.append(tracker(D.firms),posCalc(),ddCalc())}},
 {id:'more',render:el=>{const ch=h('div');el.append(ch);changesView(ch,null,true);el.append((()=>{const o=h('div');offersView(o,null,true);return o})(),h('p',{class:'warn',dir:'auto'},AZ('rank')),h('a',{class:'btn',href:APP.site},t('website')),h('p',{class:'mu'},Z2('rf')));moreTab(el)}}]};
