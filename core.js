@@ -94,6 +94,13 @@ function moreTab(el){el.append(h('h2',{},t('language')),h('div',{class:'card fir
 h('button',{class:'btn',id:'inst',style:'display:'+(deferred?'block':'none'),on:{click:async()=>{if(deferred){deferred.prompt();deferred=null}}}},t('install')),
 h('div',{class:'card mu'},t('installHint')),h('a',{class:'btn ghost',href:'privacy.html'},t('privacy')),h('p',{class:'warn'},t('disclaimer')),h('p',{class:'mu'},APP.name+' v'+APP.ver))}
 /* shell */
+
+const NW={h:{ar:'آخر الأخبار',en:'Latest news',fr:'Dernières actualités',es:'Últimas noticias',tr:'Son haberler',fa:'آخرین اخبار',ur:'تازہ خبریں',hi:'ताज़ा खबरें'},src:{ar:'المصدر',en:'Source',fr:'Source',es:'Fuente',tr:'Kaynak',fa:'منبع',ur:'ماخذ',hi:'स्रोत'},high:{ar:'تأثير عالي',en:'High impact',fr:'Impact fort',es:'Impacto alto',tr:'Yüksek etki',fa:'تأثیر بالا',ur:'زیادہ اثر',hi:'उच्च प्रभाव'},med:{ar:'تأثير متوسط',en:'Medium impact',fr:'Impact moyen',es:'Impacto medio',tr:'Orta etki',fa:'تأثیر متوسط',ur:'درمیانی اثر',hi:'मध्यम प्रभाव'},low:{ar:'تأثير منخفض',en:'Low impact',fr:'Impact faible',es:'Impacto bajo',tr:'Düşük etki',fa:'تأثیر کم',ur:'کم اثر',hi:'कम प्रभाव'}};
+async function newsView(el,max){let D;try{const r=await fetch('news.json?'+Date.now());if(!r.ok)return;D=await r.json()}catch(e){return}
+const it=(D.items||[]).filter(x=>x&&x.title&&x.src&&/^https?:\/\//.test(x.url||'')).sort((a,b)=>String(b.time).localeCompare(String(a.time))).slice(0,max||5);if(!it.length)return;
+const Z=k=>(NW[k][L]||NW[k].en);const box=h('div',{},h('h2',{},Z('h')));
+it.forEach(x=>{const tm=x.time?new Date(x.time):null;box.append(h('a',{class:'card news',href:x.url,target:'_blank',rel:'noopener'},h('div',{class:'row'},h('span',{class:'tag '+(x.impact||'low')},Z(x.impact in NW?x.impact:'low')),h('span',{class:'mu',dir:'ltr'},tm&&isFinite(tm)?tm.toLocaleString(L==='ar'?'en':L,{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}):'')),h('div',{class:'nt',dir:'auto'},x.title),x.gist?h('div',{class:'mu',dir:'auto'},x.gist):'',h('div',{class:'mu',dir:'auto'},Z('src')+': '+x.src)))});
+return box}
 function boot(){const v=h('main',{id:'view'});document.body.prepend(h('header',{},h('img',{class:'logo',src:APP.id+'-icon.svg',alt:''}),h('h1',{},APP.name),h('button',{class:'iconbtn','aria-label':t('language'),on:{click:langPicker}},icon('globe'),L.toUpperCase())),v);
 const nav=h('nav');document.body.append(nav);
 APP.tabs.forEach(x=>nav.append(h('a',{href:'#/'+x.id,'data-id':x.id},icon(x.icon||x.id),t(x.key||x.id))));
