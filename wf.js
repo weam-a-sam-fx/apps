@@ -1,8 +1,13 @@
-const APP={id:'wf',name:'WEAM FX',ver:'0.2',tabs:[
+const APP={id:'wf',name:'WEAM FX',ver:'0.3',tabs:[
 {id:'home',render:async(el)=>{const D=await (await fetch('data.json')).json();const g=D.gold;
 el.append(h('div',{class:'card hero'},h('div',{class:'mu'},t('goldClose')+' | '+g.date),h('div',{class:'big'},'$'+fmt(g.close)),h('div',{class:'row mu'},h('span',{},t('high')+' '+fmt(g.high)),h('span',{},t('low')+' '+fmt(g.low))),h('div',{class:'mu'},t('source')+': '+g.src)),
 h('h2',{},t('liveChart')));const w=h('div',{style:'height:220px;border-radius:16px;overflow:hidden'});el.append(w);
 const s=document.createElement('script');s.src='https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js';s.async=true;s.text=JSON.stringify({symbol:'OANDA:XAUUSD',width:'100%',height:220,locale:L==='ar'?'ar_AE':L,dateRange:'1M',colorTheme:'dark',isTransparent:true,autosize:false});w.append(s);
+const TV={ar:'افتح الشارت على TradingView',en:'Open live chart on TradingView',fr:'Ouvrir le graphique sur TradingView',es:'Abrir el gráfico en TradingView',tr:'TradingView\'de canlı grafiği aç',fa:'باز کردن نمودار در TradingView',ur:'TradingView پر لائیو چارٹ کھولیں',hi:'TradingView पर लाइव चार्ट खोलें'};
+const LV={ar:'السعر الحي',en:'Live price',fr:'Prix en direct',es:'Precio en vivo',tr:'Canlı fiyat',fa:'قیمت زنده',ur:'لائیو قیمت',hi:'लाइव कीमत'};
+el.append(h('a',{class:'btn ghost',href:'https://www.tradingview.com/chart/?symbol=OANDA%3AXAUUSD',target:'_blank',rel:'noopener'},TV[L]||TV.en));
+const lp=h('div',{class:'mu',dir:'ltr'});el.querySelector('.hero').append(lp);
+fetch('https://api.gold-api.com/price/XAU').then(r=>r.json()).then(j=>{if(j&&j.price)lp.textContent=(LV[L]||LV.en)+': $'+fmt(j.price)+' | gold-api.com | '+String(j.updatedAt||'').slice(11,16)+' UTC'}).catch(()=>{});
 el.append(h('h2',{},t('links')),h('a',{class:'btn',href:'https://weamfx.dpdns.org/'},t('website')),h('a',{class:'btn ghost',href:'https://youtube.com/@weamsam2625'},t('youtube')),h('a',{class:'btn ghost',href:'https://t.me/WeaM_FX'},'Telegram'),h('p',{class:'warn'},t('disclaimer')))}},
 {id:'tools',render:el=>el.append(posCalc(),rrCalc(),ddCalc())},
 {id:'journal',render:el=>{const K='wf_journal',get=()=>JSON.parse(localStorage.getItem(K)||'[]'),set=a=>localStorage.setItem(K,JSON.stringify(a));const list=h('div'),stats=h('div',{class:'card'});
