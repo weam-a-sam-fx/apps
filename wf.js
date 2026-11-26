@@ -35,7 +35,7 @@ const cw=h('div',{style:'min-height:60px;border-radius:16px;overflow:hidden;marg
 el.append(h('h2',{},CZ('h')),cw,h('a',{class:'btn ghost',href:'https://www.tradingview.com/economic-calendar/',target:'_blank',rel:'noopener'},CZ('b')));
 el.append(h('a',{class:'btn ghost',href:'https://www.tradingview.com/chart/?symbol=OANDA%3AXAUUSD',target:'_blank',rel:'noopener'},TV[L]||TV.en));
 const lp=h('div',{class:'mu',dir:'ltr'});el.querySelector('.hero').append(lp);
-fetch('https://api.gold-api.com/price/XAU').then(r=>r.json()).then(j=>{if(j&&j.price)lp.textContent=(LV[L]||LV.en)+': $'+fmt(j.price)+' | gold-api.com | '+String(j.updatedAt||'').slice(11,16)+' UTC'}).catch(()=>{});
+fetch('https://api.gold-api.com/price/XAU').then(r=>r.json()).then(j=>{if(j&&j.price){lp.textContent=(LV[L]||LV.en)+': $'+fmt(j.price)+' | gold-api.com | '+String(j.updatedAt||'').slice(11,16)+' UTC';try{localStorage.setItem('wf_lp',JSON.stringify({p:j.price,t:String(j.updatedAt||'')}))}catch(e){}}}).catch(()=>{try{const o=JSON.parse(localStorage.getItem('wf_lp'));if(o)lp.textContent=(L==='ar'?'آخر سعر محفوظ (أوفلاين)':(LV[L]||LV.en)+' (offline, last saved)')+': $'+fmt(o.p)+' | '+o.t.slice(0,16).replace('T',' ')+' UTC'}catch(e){}});
 el.append(h('h2',{},t('links')),h('a',{class:'btn',href:'https://weamfx.dpdns.org/'},t('website')),h('a',{class:'btn ghost',href:'https://youtube.com/@weamsam2625'},t('youtube')),h('p',{class:'warn'},t('disclaimer')))}},
 {id:'tools',render:el=>el.append(posCalc(),rrCalc(),ddCalc())},
 {id:'journal',render:el=>{const K='wf_journal',get=()=>JSON.parse(localStorage.getItem(K)||'[]'),set=a=>localStorage.setItem(K,JSON.stringify(a));const list=h('div'),stats=h('div',{class:'card'});
