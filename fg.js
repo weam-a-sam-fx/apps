@@ -29,9 +29,15 @@ cmp:{ar:'مقارنة',en:'Compare',fr:'Comparer',es:'Comparar',tr:'Karşılaşt
 score:{ar:'الدرجة',en:'Score',fr:'Score',es:'Puntuación',tr:'Puan',fa:'امتیاز',ur:'اسکور',hi:'स्कोर'},
 rank:{ar:'الترتيب',en:'Rank',fr:'Rang',es:'Puesto',tr:'Sıra',fa:'رتبه',ur:'درجہ',hi:'रैंक'}};
 const X=k=>(XT[k]&&(XT[k][L]||XT[k].en))||k;
-const usd=n=>n==null?'-':'$'+fmt(n,0);
-const FV=f=>({split:f.split==null?'-':'≤'+f.split+'%',cheap:usd(f.cheap),sizes:f.sizes?usd(f.sizes[0])+' – '+usd(f.sizes[f.sizes.length-1]):'-',target:f.target==null?'-':f.target+'%'+(f.cardNote?' *':''),daily:f.daily==null?'-':f.daily+'%'+(f.cardNote?' *':''),dd:(f.dd||'-')+(f.cardNote?' *':''),pay:X(f.pay),wkh:X(f.wk?'yes':'no'),news:X(f.news?'yes':'no'),ea:X(f.ea?'yes':'no'),founded:f.founded||'-',tp:f.tp==null?'-':f.tp+' / 5'});
+const usd=n=>n==null?'-':'$'+fmt(n,0);const cheapT=f=>f.cheap==null?'-':(f.cheapCur==='EUR'?'€':'$')+fmt(f.cheap,0);
+const FV=f=>({split:f.split==null?'-':'≤'+f.split+'%',cheap:cheapT(f),sizes:f.sizes?usd(f.sizes[0])+' – '+usd(f.sizes[f.sizes.length-1]):'-',target:f.target==null?'-':f.target+'%'+(f.cardNote?' *':''),daily:f.dailyTxt||(f.daily==null?'-':f.daily+'%'+(f.cardNote?' *':'')),dd:(f.dd||'-')+(f.cardNote?' *':''),pay:X(f.pay),wkh:X(f.wk?'yes':'no'),news:X(f.news?'yes':'no'),ea:X(f.ea?'yes':'no'),founded:f.founded||'-',tp:f.tp==null?'-':f.tp+' / 5'});
 const ROWS=['split','cheap','sizes','target','daily','dd','pay','wkh','news','ea','founded','tp'];
+
+const CT={h:{ar:'سجل تغييرات الشركات',en:'Firm changes log',fr:'Journal des changements',es:'Registro de cambios',tr:'Firma değişiklik günlüğü',fa:'گزارش تغییرات شرکت‌ها',ur:'فرم تبدیلیوں کا لاگ',hi:'फर्म बदलाव लॉग'},s:{ar:'المصدر',en:'Source',fr:'Source',es:'Fuente',tr:'Kaynak',fa:'منبع',ur:'ماخذ',hi:'स्रोत'},e:{ar:'مفيش تغييرات مسجلة لسه. بنسجل بس اللي عليه مصدر رسمي ومؤرخ.',en:'No changes logged yet. We only log dated changes with an official source.',fr:'Aucun changement enregistré. Seulement des changements datés avec source officielle.',es:'Aún sin cambios. Solo cambios fechados con fuente oficial.',tr:'Henüz değişiklik yok. Yalnızca tarihli ve resmi kaynaklı değişiklikler eklenir.',fa:'هنوز تغییری ثبت نشده. فقط تغییرات تاریخ‌دار با منبع رسمی.',ur:'ابھی کوئی تبدیلی درج نہیں۔ صرف تاریخ والی اور سرکاری ماخذ والی۔',hi:'अभी कोई बदलाव दर्ज नहीं। सिर्फ तारीख और आधिकारिक स्रोत वाले।'}};
+async function changesView(el,firm,showEmpty){let D;try{const r=await fetch('changes.json?'+Date.now());if(!r.ok)return;D=await r.json()}catch(e){return}
+const it=(D.items||[]).filter(x=>x&&x.date&&x.firm&&x.text&&x.src&&/^https?:\/\//.test(x.url||'')&&(!firm||x.firm===firm)).sort((a,b)=>String(b.date).localeCompare(String(a.date))).slice(0,firm?5:12);
+if(!it.length&&!showEmpty)return;const Z=k=>CT[k][L]||CT[k].en;el.append(h('h2',{},Z('h')));if(!it.length)el.append(h('p',{class:'mu'},Z('e')));
+it.forEach(x=>el.append(h('a',{class:'card news',href:x.url,target:'_blank',rel:'noopener'},h('div',{class:'row'},h('span',{class:'tag med'},x.firm),h('span',{class:'mu',dir:'ltr'},x.date)),h('div',{class:'nt',dir:'auto'},x.text),h('div',{class:'mu',dir:'auto'},Z('s')+': '+x.src))))}
 function detail(el,f,rank){const v=FV(f);const K=['rep','pys','rul','cst'];
 el.append(h('a',{class:'link',href:'#/firms'},'←'),h('div',{class:'card hero'},h('div',{class:'row'},h('span',{class:'rk'},rank),h('b',{style:'font-size:20px;flex:1;margin-inline:10px'},f.name),h('span',{class:'big sc',dir:'ltr'},f.score??'-')),h('div',{class:'bar'},h('i',{style:'width:'+(f.score||0)+'%'}))),
 h('div',{class:'card'},...ROWS.map(r=>h('div',{class:'row',style:'padding:6px 0;border-bottom:1px solid var(--line)'},h('span',{class:'mu'},X(r)),h('b',{dir:'ltr'},v[r])))),
@@ -39,7 +45,7 @@ f.cardNote?h('p',{class:'warn'},'* '+X('card')):'',
 h('h2',{},X('brk')),h('div',{class:'card'},...K.map((k,i)=>h('div',{},h('div',{class:'row'},h('span',{},X(k)),h('b',{dir:'ltr'},f.sc[i])),h('div',{class:'bar'},h('i',{style:'width:'+f.sc[i]+'%'}))))),
 h('h2',{},X('plans')),...f.plans.map(p=>h('div',{class:'card'},h('b',{dir:'ltr'},p.name),...p.rows.map(r=>h('div',{class:'row mu',dir:'rtl',style:'padding:4px 0'},h('span',{},r.k),h('span',{},r.v))))),
 h('p',{class:'mu',dir:'rtl'},f.psrc),h('p',{class:'mu'},X('chk')),
-h('a',{class:'btn',href:'https://'+f.site,target:'_blank',rel:'noopener'},X('site')+': '+f.site),h('h2',{},t('method')),h('div',{class:'card mu'},t('methodText')),h('p',{class:'warn'},t('disclaimer')))}
+h('div',{id:'chg'}),h('a',{class:'btn',href:'https://'+f.site,target:'_blank',rel:'noopener'},X('site')+': '+f.site),h('h2',{},t('method')),h('div',{class:'card mu'},t('methodText')),h('p',{class:'warn'},t('disclaimer')));changesView(el.querySelector('#chg'),f.name,false)}
 
 const FT={
 sort:{ar:'الترتيب حسب',en:'Sort by',fr:'Trier par',es:'Ordenar por',tr:'Sırala',fa:'مرتب‌سازی',ur:'ترتیب',hi:'क्रमबद्ध'},
@@ -96,7 +102,7 @@ if(tg>0){const goal=s*(1+tg/100),pr=(n-s)/(goal-s)*100;out.append(h('div',{class
 sel.onchange=()=>{const f=cur();if(f.id){iT.value=f.target??'';iL.value=f.daily??'';iM.value=pnum(f.dd)??''}calc()};
 return h('div',{class:'card',on:{input:calc}},h('b',{},FZ('trk')),h('label',{},FZ('tFirm')),sel,dS,dN,dD,h('div',{class:'grid2'},dT,dL),dM,out,h('p',{class:'warn'},FZ('tWarn')),(()=>{setTimeout(calc);return h('span')})())}
 
-const APP={id:'fg',name:'Funded Guild',ver:'0.7',site:'https://sites.google.com/view/funded-guild',tabs:[
+const APP={id:'fg',name:'Funded Guild',ver:'0.8',site:'https://sites.google.com/view/funded-guild',tabs:[
 {id:'firms',render:async(el,arg)=>{const D=await (await fetch('data.json?'+Date.now()).catch(()=>fetch('data.json'))).json();const F0=D.firms.slice().sort((a,b)=>(b.score??-1)-(a.score??-1));
 if(arg==='~match')return matchView(el,F0);
 if(arg){const f=F0.find(x=>x.name===arg);if(f)return detail(el,f,F0.indexOf(f)+1)}
@@ -112,4 +118,4 @@ const r0=h('tr',{},h('td',{class:'mu'},X('score')));F.forEach(f=>r0.append(h('td
 ROWS.forEach(r=>{const tr=h('tr',{},h('td',{class:'mu',dir:'auto'},X(r)));F.forEach(f=>tr.append(h('td',{dir:'ltr'},FV(f)[r])));tb.append(tr)});
 el.append(h('div',{style:'overflow-x:auto;direction:ltr'},tb),h('p',{class:'warn'},'* '+X('card')),h('p',{class:'mu'},X('chk')),h('p',{class:'warn'},t('disclaimer')))}},
 {id:'tools',render:async el=>{const D=await (await fetch('data.json')).json();el.append(tracker(D.firms),posCalc(),ddCalc())}},
-{id:'more',render:el=>{el.append(h('h2',{},t('offers')),h('div',{class:'card mu'},t('offersText'),h('br'),h('b',{},t('soon'))),h('a',{class:'btn',href:APP.site},t('website')));moreTab(el)}}]};
+{id:'more',render:el=>{const ch=h('div');el.append(ch);changesView(ch,null,true);el.append(h('h2',{},t('offers')),h('div',{class:'card mu'},t('offersText'),h('br'),h('b',{},t('soon'))),h('a',{class:'btn',href:APP.site},t('website')));moreTab(el)}}]};
