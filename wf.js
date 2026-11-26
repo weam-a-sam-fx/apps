@@ -12,4 +12,4 @@ const sym=h('input',{value:'XAUUSD'}),dir=h('select',{},h('option',{value:'b'},t
 const form=h('div',{class:'card'},h('b',{},t('add')),h('label',{},t('symbol')),sym,h('div',{class:'grid2'},h('div',{},h('label',{},t('buy')+'/'+t('sell')),dir),h('div',{},h('label',{},t('result')),res)),h('label',{},t('note')),nt,h('button',{class:'btn',on:{click:()=>{const r=num(res.value);if(!isFinite(r))return;const a=get();a.push({s:sym.value||'XAUUSD',d:dir.value,r,n:nt.value,dt:new Date().toISOString().slice(0,10)});set(a);res.value='';nt.value='';draw()}}},t('add')));
 el.append(stats,form,h('p',{class:'mu'},t('journalNote')),list);draw()}},
 {id:'learn',render:el=>el.append(h('div',{class:'card'},h('b',{},t('course')),h('p',{class:'mu'},'YouTube')),h('a',{class:'btn',href:'https://youtube.com/@weamsam2625'},t('youtube')),h('a',{class:'btn ghost',href:'https://weamfx.dpdns.org/'},t('website')),h('p',{class:'warn'},t('disclaimer')))},
-{id:'more',render:moreTab}]};
+{id:'more',render:el=>moreTab(el)}]};
