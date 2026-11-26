@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6e08a"/><stop offset="1" stop-color="#b8901f"/></linearGradient><linearGradient id="b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#14305c"/><stop offset="1" stop-color="#07101e"/></linearGradient></defs><rect width="512" height="512" fill="url(#b)"/>
+<g stroke="#d4af37" stroke-width="10" stroke-linecap="round" opacity=".12"><path d="M70 440V350M70 395h0M120 440V320M170 440V290M220 440V330M270 440V270M320 440V300M370 440V240M420 440V210M450 440V180"/></g>
+<text x="256" y="190" font-family="Arial Black,Helvetica,Arial,sans-serif" font-weight="900" font-size="104" text-anchor="middle" fill="url(#g)" letter-spacing="2">WEAM</text>
+<rect x="96" y="214" width="320" height="6" rx="3" fill="url(#g)"/>
+<text x="256" y="400" font-family="Arial Black,Helvetica,Arial,sans-serif" font-weight="900" font-size="190" text-anchor="middle" fill="url(#g)">FX</text></svg>
