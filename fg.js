@@ -41,15 +41,75 @@ h('h2',{},X('plans')),...f.plans.map(p=>h('div',{class:'card'},h('b',{dir:'ltr'}
 h('p',{class:'mu',dir:'rtl'},f.psrc),h('p',{class:'mu'},X('chk')),
 h('a',{class:'btn',href:'https://'+f.site,target:'_blank',rel:'noopener'},X('site')+': '+f.site),h('h2',{},t('method')),h('div',{class:'card mu'},t('methodText')),h('p',{class:'warn'},t('disclaimer')))}
 
-const APP={id:'fg',name:'Funded Guild',ver:'0.4',site:'https://sites.google.com/view/funded-guild',tabs:[
-{id:'firms',render:async(el,arg)=>{const D=await (await fetch('data.json?'+Date.now()).catch(()=>fetch('data.json'))).json();const F=D.firms.slice().sort((a,b)=>(b.score??-1)-(a.score??-1));
-if(arg){const f=F.find(x=>x.name===arg);if(f)return detail(el,f,F.indexOf(f)+1)}
-const q=h('input',{placeholder:t('search'),type:'search'}),list=h('div');const draw=()=>{list.innerHTML='';F.filter(f=>f.name.toLowerCase().includes(q.value.toLowerCase())).forEach(f=>{const i=F.indexOf(f);list.append(h('div',{class:'card firm',on:{click:()=>location.hash='#/firms/'+encodeURIComponent(f.name)}},h('div',{class:'row'},h('span',{class:'rk'+(i?' n':'')},i+1),h('span',{class:'nm'},f.name),h('span',{class:'sc',dir:'ltr'},f.score??'-')),h('div',{class:'bar'},h('i',{style:'width:'+(f.score||0)+'%'}))))})};q.oninput=draw;draw();
-el.append(q,h('p',{class:'mu'},t('updated')+': '+D.asof+' | '+t('method')+': '+t('methodText')),list,h('p',{class:'warn'},t('disclaimer')))}},
+const FT={
+sort:{ar:'الترتيب حسب',en:'Sort by',fr:'Trier par',es:'Ordenar por',tr:'Sırala',fa:'مرتب‌سازی',ur:'ترتیب',hi:'क्रमबद्ध'},
+sScore:{ar:'الدرجة',en:'Score',fr:'Score',es:'Puntuación',tr:'Puan',fa:'امتیاز',ur:'اسکور',hi:'स्कोर'},
+sSplit:{ar:'نسبة الأرباح',en:'Profit split',fr:'Partage',es:'Reparto',tr:'Kâr payı',fa:'سهم سود',ur:'منافع حصہ',hi:'प्रॉफिट स्प्लिट'},
+sCheap:{ar:'الأرخص',en:'Cheapest',fr:'Moins cher',es:'Más barato',tr:'En ucuz',fa:'ارزان‌ترین',ur:'سب سے سستا',hi:'सबसे सस्ता'},
+sPay:{ar:'سرعة السحب',en:'Payout speed',fr:'Rapidité de retrait',es:'Velocidad de retiro',tr:'Ödeme hızı',fa:'سرعت برداشت',ur:'ادائیگی کی رفتار',hi:'पेआउट गति'},
+minSz:{ar:'حجم حساب لا يقل عن',en:'Account size at least',fr:'Taille de compte min.',es:'Tamaño mínimo de cuenta',tr:'En az hesap boyutu',fa:'حداقل اندازه حساب',ur:'کم از کم اکاؤنٹ سائز',hi:'न्यूनतम अकाउंट साइज़'},
+any:{ar:'أي حجم',en:'Any size',fr:'Toute taille',es:'Cualquier tamaño',tr:'Herhangi',fa:'هر اندازه',ur:'کوئی بھی',hi:'कोई भी'},
+find:{ar:'ساعدني أختار شركة',en:'Help me pick a firm',fr:'Aidez-moi à choisir',es:'Ayúdame a elegir',tr:'Firma seçmeme yardım et',fa:'در انتخاب شرکت کمک کن',ur:'فرم چننے میں مدد',hi:'फर्म चुनने में मदद'},
+budget:{ar:'أقصى سعر لأرخص خطة ($)',en:'Max price of cheapest plan ($)',fr:'Prix max du plan le moins cher ($)',es:'Precio máx. del plan más barato ($)',tr:'En ucuz plan en çok ($)',fa:'سقف قیمت ارزان‌ترین طرح ($)',ur:'سستے پلان کی زیادہ سے زیادہ قیمت ($)',hi:'सबसे सस्ते प्लान की अधिकतम कीमत ($)'},
+needs:{ar:'محتاج:',en:'I need:',fr:'Il me faut :',es:'Necesito:',tr:'İhtiyacım:',fa:'نیاز دارم:',ur:'مجھے چاہیے:',hi:'मुझे चाहिए:'},
+fast:{ar:'سحب أسبوعي أو أسرع',en:'Weekly or faster payouts',fr:'Retraits hebdo ou plus rapides',es:'Retiros semanales o más rápidos',tr:'Haftalık veya daha hızlı ödeme',fa:'برداشت هفتگی یا سریع‌تر',ur:'ہفتہ وار یا تیز ادائیگی',hi:'साप्ताहिक या तेज़ पेआउट'},
+match:{ar:'النتيجة',en:'Matches',fr:'Résultats',es:'Resultados',tr:'Sonuçlar',fa:'نتیجه',ur:'نتائج',hi:'परिणाम'},
+none:{ar:'مفيش شركة من الأربعة بتحقق كل الشروط. خفف شرط.',en:'None of the four firms meet every condition. Relax one.',fr:'Aucune des quatre firmes ne remplit tout. Assouplissez un critère.',es:'Ninguna de las cuatro cumple todo. Relaja un criterio.',tr:'Dört firmadan hiçbiri tüm şartları sağlamıyor. Birini gevşetin.',fa:'هیچ‌کدام از چهار شرکت همه شرایط را ندارد. یکی را ساده‌تر کنید.',ur:'چاروں میں سے کوئی بھی تمام شرائط پوری نہیں کرتی۔ ایک نرم کریں۔',hi:'चारों में से कोई सभी शर्तें पूरी नहीं करती। एक ढीली करें।'},
+mnote:{ar:'التوصية من بياناتنا بس (أربع شركات) وتتغير مع تحديث الأسعار والقواعد. مش نصيحة مالية.',en:'Picks use our data only (four firms) and change as prices and rules change. Not financial advice.',fr:'Basé sur nos données (quatre firmes). Pas un conseil financier.',es:'Basado solo en nuestros datos (cuatro firmas). No es asesoramiento financiero.',tr:'Sadece verilerimize dayanır (dört firma). Finansal tavsiye değildir.',fa:'فقط بر پایه داده‌های ما (چهار شرکت). توصیه مالی نیست.',ur:'صرف ہمارے ڈیٹا پر (چار فرمز)۔ مالی مشورہ نہیں۔',hi:'सिर्फ हमारे डेटा पर (चार फर्म)। वित्तीय सलाह नहीं।'},
+trk:{ar:'متابع التحدي',en:'Challenge tracker',fr:'Suivi du challenge',es:'Seguimiento del reto',tr:'Challenge takibi',fa:'ردیاب چالش',ur:'چیلنج ٹریکر',hi:'चैलेंज ट्रैकर'},
+tFirm:{ar:'الشركة (للأرقام الافتراضية)',en:'Firm (default numbers)',fr:'Firme (valeurs par défaut)',es:'Firma (valores por defecto)',tr:'Firma (varsayılan değerler)',fa:'شرکت (مقادیر پیش‌فرض)',ur:'فرم (ڈیفالٹ اعداد)',hi:'फर्म (डिफ़ॉल्ट संख्याएँ)'},
+tStart:{ar:'رصيد البداية ($)',en:'Starting balance ($)',fr:'Solde initial ($)',es:'Saldo inicial ($)',tr:'Başlangıç bakiyesi ($)',fa:'موجودی شروع ($)',ur:'ابتدائی بیلنس ($)',hi:'शुरुआती बैलेंस ($)'},
+tNow:{ar:'الرصيد/الإكويتي الحالي ($)',en:'Current balance/equity ($)',fr:'Solde/equity actuel ($)',es:'Saldo/equity actual ($)',tr:'Güncel bakiye/equity ($)',fa:'موجودی/اکوییتی فعلی ($)',ur:'موجودہ بیلنس/ایکویٹی ($)',hi:'वर्तमान बैलेंस/इक्विटी ($)'},
+tDay:{ar:'رصيد بداية اليوم ($)',en:'Balance at start of day ($)',fr:'Solde en début de journée ($)',es:'Saldo al inicio del día ($)',tr:'Gün başı bakiye ($)',fa:'موجودی ابتدای روز ($)',ur:'دن کے آغاز کا بیلنس ($)',hi:'दिन की शुरुआत का बैलेंस ($)'},
+tTarget:{ar:'هدف الربح %',en:'Profit target %',fr:'Objectif de profit %',es:'Objetivo de beneficio %',tr:'Kâr hedefi %',fa:'هدف سود %',ur:'منافع کا ہدف %',hi:'प्रॉफिट टारगेट %'},
+tDaily:{ar:'الحد اليومي للخسارة %',en:'Daily loss limit %',fr:'Perte quotidienne max %',es:'Pérdida diaria máx. %',tr:'Günlük zarar limiti %',fa:'حد ضرر روزانه %',ur:'یومیہ نقصان کی حد %',hi:'दैनिक लॉस लिमिट %'},
+tDd:{ar:'الحد الأقصى للخسارة %',en:'Max loss %',fr:'Perte max %',es:'Pérdida máx. %',tr:'Maks. zarar %',fa:'حداکثر ضرر %',ur:'زیادہ سے زیادہ نقصان %',hi:'अधिकतम नुकसान %'},
+rDaily:{ar:'المتبقي من الخسارة اليومية',en:'Daily loss left',fr:'Perte quotidienne restante',es:'Pérdida diaria restante',tr:'Kalan günlük zarar',fa:'ضرر روزانه باقی‌مانده',ur:'یومیہ نقصان باقی',hi:'दैनिक लॉस बाकी'},
+rDd:{ar:'المتبقي قبل حد الخسارة الأقصى',en:'Room before max loss',fr:'Marge avant perte max',es:'Margen antes de pérdida máx.',tr:'Maks. zarara kalan',fa:'فاصله تا حداکثر ضرر',ur:'زیادہ سے زیادہ نقصان سے پہلے گنجائش',hi:'मैक्स लॉस से पहले गुंजाइश'},
+rTg:{ar:'التقدم لهدف الربح',en:'Progress to target',fr:'Progression vers l\'objectif',es:'Progreso al objetivo',tr:'Hedefe ilerleme',fa:'پیشرفت تا هدف',ur:'ہدف کی طرف پیش رفت',hi:'टारगेट की ओर प्रगति'},
+tWarn:{ar:'الحساب بيفترض حد ثابت من رصيد البداية. شركتك ممكن تحسب بالإكويتي أو حد متحرك: راجع قواعد خطتك. عدّل النسب لو مختلفة.',en:'Assumes a fixed limit from the starting balance. Your firm may use equity or a trailing limit: check your plan rules and edit the percentages.',fr:'Suppose une limite fixe depuis le solde initial. Votre firme peut utiliser l\'equity ou une limite glissante : vérifiez votre plan.',es:'Supone un límite fijo desde el saldo inicial. Tu firma puede usar equity o límite móvil: revisa tu plan.',tr:'Başlangıç bakiyesinden sabit limit varsayar. Firmanız equity veya kayan limit kullanabilir: planınızı kontrol edin.',fa:'حد ثابت از موجودی شروع فرض می‌شود. شرکت شما ممکن است اکوییتی یا حد متحرک بگیرد: قوانین طرح را ببینید.',ur:'ابتدائی بیلنس سے مقررہ حد فرض کی گئی ہے۔ آپ کی فرم ایکویٹی یا ٹریلنگ حد استعمال کر سکتی ہے: اپنے پلان کے اصول دیکھیں۔',hi:'शुरुआती बैलेंस से निश्चित सीमा मानी गई है। आपकी फर्म इक्विटी या ट्रेलिंग सीमा ले सकती है: प्लान के नियम देखें।'},
+custom:{ar:'مخصص',en:'Custom',fr:'Personnalisé',es:'Personalizado',tr:'Özel',fa:'سفارشی',ur:'حسبِ ضرورت',hi:'कस्टम'},
+reached:{ar:'تم الوصول للهدف',en:'Target reached',fr:'Objectif atteint',es:'Objetivo alcanzado',tr:'Hedefe ulaşıldı',fa:'به هدف رسید',ur:'ہدف حاصل',hi:'टारगेट पूरा'},
+breach:{ar:'تجاوزت الحد',en:'Limit breached',fr:'Limite dépassée',es:'Límite superado',tr:'Limit aşıldı',fa:'از حد گذشت',ur:'حد پار',hi:'सीमा पार'}};
+const FZ=k=>(FT[k]&&(FT[k][L]||FT[k].en))||k;
+const pnum=s=>{const m=String(s||'').match(/[\d.]+/);return m?parseFloat(m[0]):null};
+const PAYRANK={same:0,wk:1,bi:2};
+function matchView(el,F){const bud=h('select',{},...[['','—'],['50','≤ $50'],['100','≤ $100'],['200','≤ $200']].map(a=>h('option',{value:a[0]},a[1])));
+const sz=h('select',{},h('option',{value:''},FZ('any')),...[5000,10000,25000,50000,100000,200000].map(n=>h('option',{value:n},'≥ $'+fmt(n,0))));
+const mk=(k)=>{const i=h('input',{type:'checkbox',style:'width:auto;margin-inline-end:8px'});return [i,h('label',{style:'display:flex;align-items:center;margin:8px 0'},i,X(k))]};
+const [cn,ln]=mk('news'),[cw,lw]=mk('wkh'),[ce,le]=mk('ea');const cf=h('input',{type:'checkbox',style:'width:auto;margin-inline-end:8px'});const lf=h('label',{style:'display:flex;align-items:center;margin:8px 0'},cf,FZ('fast'));
+const out=h('div');const run=()=>{out.innerHTML='';const r=F.filter(f=>(!bud.value||f.cheap<=+bud.value)&&(!sz.value||Math.max(...f.sizes)>=+sz.value)&&(!cn.checked||f.news)&&(!cw.checked||f.wk)&&(!ce.checked||f.ea)&&(!cf.checked||PAYRANK[f.pay]<=1)).sort((a,b)=>b.score-a.score);
+if(!r.length)out.append(h('p',{class:'warn'},FZ('none')));r.forEach((f,i)=>out.append(h('div',{class:'card firm',on:{click:()=>location.hash='#/firms/'+encodeURIComponent(f.name)}},h('div',{class:'row'},h('span',{class:'rk'+(i?' n':'')},i+1),h('span',{class:'nm'},f.name),h('span',{class:'sc',dir:'ltr'},f.score)),h('div',{class:'mu',dir:'ltr'},X('split')+' '+FV(f).split+' | '+X('cheap')+' '+FV(f).cheap+' | '+X('pay')+' '+FV(f).pay))))};
+const box=h('div',{class:'card',on:{input:run,change:run}},h('label',{},FZ('budget')),bud,h('label',{},FZ('minSz')),sz,h('label',{},FZ('needs')),ln,lw,le,lf);
+el.append(h('a',{class:'link',href:'#/firms'},'←'),h('h2',{},FZ('find')),box,h('h2',{},FZ('match')),out,h('p',{class:'warn'},FZ('mnote')));run()}
+function tracker(F){const K='fg_trk';const S=JSON.parse(localStorage.getItem(K)||'{}');const sel=h('select',{},...F.map(f=>h('option',{value:f.id},f.name)),h('option',{value:'custom'},FZ('custom')));sel.value=S.firm||F[0].id;
+const fld=(k,lab,v)=>{const i=h('input',{type:'text',inputmode:'decimal',value:S[k]!=null?S[k]:(v==null?'':v)});return [i,h('div',{},h('label',{},lab),i)]};
+const [iS,dS]=fld('start',FZ('tStart'),100000),[iN,dN]=fld('now',FZ('tNow'),100000),[iD,dD]=fld('day',FZ('tDay'),100000);
+const cur=()=>F.find(f=>f.id===sel.value)||{};const [iT,dT]=fld('target',FZ('tTarget'),cur().target),[iL,dL]=fld('daily',FZ('tDaily'),cur().daily),[iM,dM]=fld('dd',FZ('tDd'),pnum(cur().dd));
+const out=h('div',{dir:'ltr'});const bar=(p,c)=>h('div',{class:'bar'},h('i',{style:'width:'+Math.max(0,Math.min(100,p))+'%'+(c?';background:'+c:'')}));
+const calc=()=>{const s=num(iS.value),n=num(iN.value),d=num(iD.value),tg=num(iT.value),dl=num(iL.value),dm=num(iM.value);out.innerHTML='';
+localStorage.setItem(K,JSON.stringify({firm:sel.value,start:iS.value,now:iN.value,day:iD.value,target:iT.value,daily:iL.value,dd:iM.value}));
+if(!(s>0&&n>0))return;
+if(dl>0&&d>0){const lim=d*dl/100,used=Math.max(0,d-n),left=lim-used;out.append(h('div',{class:'row'},h('span',{},FZ('rDaily')),h('b',{class:left>=0?'pos':'neg'},left>=0?'$'+fmt(left,2)+' / $'+fmt(lim,2):FZ('breach'))),bar(left/lim*100,left<0?'var(--bad)':''))}
+if(dm>0){const floor=s*(1-dm/100),room=n-floor,tot=s*dm/100;out.append(h('div',{class:'row',style:'margin-top:10px'},h('span',{},FZ('rDd')),h('b',{class:room>=0?'pos':'neg'},room>=0?'$'+fmt(room,2)+' ('+fmt(floor,2)+'$ floor)':FZ('breach'))),bar(room/tot*100,room<0?'var(--bad)':''))}
+if(tg>0){const goal=s*(1+tg/100),pr=(n-s)/(goal-s)*100;out.append(h('div',{class:'row',style:'margin-top:10px'},h('span',{},FZ('rTg')),h('b',{},n>=goal?FZ('reached'):fmt(Math.max(0,pr),0)+'%  ($'+fmt(goal-n>0?goal-n:0,2)+')')),bar(pr))}};
+sel.onchange=()=>{const f=cur();if(f.id){iT.value=f.target??'';iL.value=f.daily??'';iM.value=pnum(f.dd)??''}calc()};
+return h('div',{class:'card',on:{input:calc}},h('b',{},FZ('trk')),h('label',{},FZ('tFirm')),sel,dS,dN,dD,h('div',{class:'grid2'},dT,dL),dM,out,h('p',{class:'warn'},FZ('tWarn')),(()=>{setTimeout(calc);return h('span')})())}
+
+const APP={id:'fg',name:'Funded Guild',ver:'0.7',site:'https://sites.google.com/view/funded-guild',tabs:[
+{id:'firms',render:async(el,arg)=>{const D=await (await fetch('data.json?'+Date.now()).catch(()=>fetch('data.json'))).json();const F0=D.firms.slice().sort((a,b)=>(b.score??-1)-(a.score??-1));
+if(arg==='~match')return matchView(el,F0);
+if(arg){const f=F0.find(x=>x.name===arg);if(f)return detail(el,f,F0.indexOf(f)+1)}
+const sortSel=h('select',{},...[['score','sScore'],['split','sSplit'],['cheap','sCheap'],['pay','sPay']].map(a=>h('option',{value:a[0]},FZ(a[1])))),szSel=h('select',{},h('option',{value:''},FZ('any')),...[5000,10000,25000,50000,100000,200000].map(n=>h('option',{value:n},'≥ $'+fmt(n,0))));
+const q=h('input',{placeholder:t('search'),type:'search'}),list=h('div');
+const key={score:f=>-f.score,split:f=>-f.split,cheap:f=>f.cheap,pay:f=>PAYRANK[f.pay]};
+const draw=()=>{list.innerHTML='';const F=F0.slice().sort((a,b)=>key[sortSel.value](a)-key[sortSel.value](b)||b.score-a.score).filter(f=>f.name.toLowerCase().includes(q.value.toLowerCase())&&(!szSel.value||Math.max(...f.sizes)>=+szSel.value));F.forEach((f,i)=>{const sub=sortSel.value==='split'?X('split')+' '+FV(f).split:sortSel.value==='cheap'?X('cheap')+' '+FV(f).cheap:sortSel.value==='pay'?X('pay')+': '+FV(f).pay:'';list.append(h('div',{class:'card firm',on:{click:()=>location.hash='#/firms/'+encodeURIComponent(f.name)}},h('div',{class:'row'},h('span',{class:'rk'+(i?' n':'')},i+1),h('span',{class:'nm'},f.name),h('span',{class:'sc',dir:'ltr'},f.score)),h('div',{class:'bar'},h('i',{style:'width:'+f.score+'%'})),sub?h('div',{class:'mu',dir:'ltr'},sub):''))});if(!F.length)list.append(h('p',{class:'mu'},FZ('none')))};
+q.oninput=draw;sortSel.onchange=draw;szSel.onchange=draw;draw();
+const nh=h('div');newsView(nh,3).then(n=>n&&nh.append(n));el.append(h('a',{class:'btn',href:'#/firms/~match'},FZ('find')),nh,q,h('div',{class:'grid2'},h('div',{},h('label',{},FZ('sort')),sortSel),h('div',{},h('label',{},FZ('minSz')),szSel)),h('p',{class:'mu'},t('updated')+': '+D.asof+' | '+t('method')+': '+t('methodText')),list,h('p',{class:'warn'},t('disclaimer')))}},
 {id:'compare',render:async(el)=>{const D=await (await fetch('data.json?'+Date.now()).catch(()=>fetch('data.json'))).json();const F=D.firms;
 const tb=h('table',{class:'cmp'});const hd=h('tr',{},h('th',{}));F.forEach(f=>hd.append(h('th',{dir:'ltr'},f.name)));tb.append(hd);
 const r0=h('tr',{},h('td',{class:'mu'},X('score')));F.forEach(f=>r0.append(h('td',{dir:'ltr'},h('b',{},f.score))));tb.append(r0);
 ROWS.forEach(r=>{const tr=h('tr',{},h('td',{class:'mu',dir:'auto'},X(r)));F.forEach(f=>tr.append(h('td',{dir:'ltr'},FV(f)[r])));tb.append(tr)});
 el.append(h('div',{style:'overflow-x:auto;direction:ltr'},tb),h('p',{class:'warn'},'* '+X('card')),h('p',{class:'mu'},X('chk')),h('p',{class:'warn'},t('disclaimer')))}},
-{id:'tools',render:el=>el.append(posCalc(),ddCalc())},
+{id:'tools',render:async el=>{const D=await (await fetch('data.json')).json();el.append(tracker(D.firms),posCalc(),ddCalc())}},
 {id:'more',render:el=>{el.append(h('h2',{},t('offers')),h('div',{class:'card mu'},t('offersText'),h('br'),h('b',{},t('soon'))),h('a',{class:'btn',href:APP.site},t('website')));moreTab(el)}}]};
