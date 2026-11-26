@@ -36,7 +36,7 @@ el.append(h('h2',{},CZ('h')),cw,h('a',{class:'btn ghost',href:'https://www.tradi
 el.append(h('a',{class:'btn ghost',href:'https://www.tradingview.com/chart/?symbol=OANDA%3AXAUUSD',target:'_blank',rel:'noopener'},TV[L]||TV.en));
 const lp=h('div',{class:'mu',dir:'ltr'});el.querySelector('.hero').append(lp);
 fetch('https://api.gold-api.com/price/XAU').then(r=>r.json()).then(j=>{if(j&&j.price)lp.textContent=(LV[L]||LV.en)+': $'+fmt(j.price)+' | gold-api.com | '+String(j.updatedAt||'').slice(11,16)+' UTC'}).catch(()=>{});
-el.append(h('h2',{},t('links')),h('a',{class:'btn',href:'https://weamfx.dpdns.org/'},t('website')),h('a',{class:'btn ghost',href:'https://youtube.com/@weamsam2625'},t('youtube')),h('a',{class:'btn ghost',href:'https://t.me/WeaM_FX'},L==='ar'?'تواصل مباشر على تيليجرام':'Contact on Telegram'),h('p',{class:'warn'},t('disclaimer')))}},
+el.append(h('h2',{},t('links')),h('a',{class:'btn',href:'https://weamfx.dpdns.org/'},t('website')),h('a',{class:'btn ghost',href:'https://youtube.com/@weamsam2625'},t('youtube')),h('p',{class:'warn'},t('disclaimer')))}},
 {id:'tools',render:el=>el.append(posCalc(),rrCalc(),ddCalc())},
 {id:'journal',render:el=>{const K='wf_journal',get=()=>JSON.parse(localStorage.getItem(K)||'[]'),set=a=>localStorage.setItem(K,JSON.stringify(a));const list=h('div'),stats=h('div',{class:'card'});
 const ex=h('div');const extra=a=>{ex.innerHTML='';if(a.length<2)return;const r=a.map(x=>x.r);let c=0,pk=0,dd=0;const pts=[0].concat(r.map(v=>c+=v));pts.forEach(v=>{pk=Math.max(pk,v);dd=Math.max(dd,pk-v)});
