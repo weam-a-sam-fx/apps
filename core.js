@@ -1,5 +1,5 @@
 /* Shared app core: i18n, router, UI helpers, tools. Each app supplies window.APP. */
-const BUILD='apps-v49';
+const BUILD='apps-v50';
 const LANGS=[['ar','العربية','rtl'],['en','English','ltr'],['fr','Français','ltr'],['es','Español','ltr'],['tr','Türkçe','ltr'],['fa','فارسی','rtl'],['ur','اردو','rtl'],['hi','हिन्दी','ltr']];
 const T={
 home:['الرئيسية','Home','Accueil','Inicio','Ana sayfa','خانه','ہوم','होम'],
@@ -112,7 +112,7 @@ const box=h('div',{class:'card',on:{input:calc}},h('b',{},t('ddCalc')),field(t('
 function rrCalc(){const out=h('div',{class:'res'},'-');const calc=()=>{const e=num($('#e3').value),s=num($('#s3').value),p=num($('#p3').value);const r=Math.abs(p-e)/Math.abs(e-s);out.textContent=isFinite(r)?'1 : '+fmt(r,2):'-'};
 return h('div',{class:'card',on:{input:calc}},h('b',{},t('rr')),field(t('entry'),'e3',''),field(t('sl'),'s3',''),field(t('tp'),'p3',''),h('label',{},t('ratio')),out)}
 function moreTab(el){el.append(memberZone(),h('h2',{},t('language')),h('div',{class:'card firm',on:{click:langPicker}},h('div',{class:'row'},h('span',{},LANGS[LI][1]),icon('globe'))),
-h('a',{class:'btn ghost',href:'privacy.html'},t('privacy')),h('p',{class:'warn'},t('disclaimer')),verTag())}
+h('a',{class:'btn',href:({wf:'https://www.weamfx.dpdns.org/',fg:'https://sites.google.com/view/funded-guild'})[APP.id],target:'_blank',rel:'noopener'},LI===0?'الموقع':'Website'),h('a',{class:'btn ghost',href:'privacy.html'},t('privacy')),h('p',{class:'warn'},t('disclaimer')),verTag())}
 /* trade sheet + analysis (shared, local only) */
 const TQ=(s)=>{const o={};s.split('\n').forEach(l=>{if(!l.trim())return;const p=l.split('|');o[p[0]]=p.slice(1)});return o};
 const TD=TQ(`trades|التحليل|Analysis|Analyse|Análisis|Analiz|تحلیل|تجزیہ|विश्लेषण
