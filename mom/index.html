@@ -1,0 +1,91 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>مساعد الأم</title><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg"><meta name="theme-color" content="#e86a9a">
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}body{margin:0;background:#fff7fb;color:#3a2a35;font-family:system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;padding:calc(env(safe-area-inset-top) + 10px) 14px 90px;max-width:520px;margin:0 auto;line-height:1.6}
+h1{font-size:22px;margin:6px 0 2px;color:#c2477a}h2{font-size:17px;margin:14px 0 6px;color:#c2477a}.sub{font-size:13px;color:#7a6572}
+.card{background:#fff;border-radius:18px;padding:14px;margin:10px 0;box-shadow:0 2px 10px rgba(194,71,122,.10)}
+button,select,input{font:inherit}button{background:#e86a9a;color:#fff;border:0;border-radius:12px;padding:9px 14px;font-weight:700}button.g{background:#f3d9e6;color:#8a2d57}button.s{padding:6px 10px;font-size:13px}
+input,select{border:1px solid #e8c9d8;border-radius:10px;padding:8px;background:#fff;max-width:100%}
+.row{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}.src{font-size:12px;color:#7a6572;margin-top:6px}.src a{color:#c2477a}
+nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 6px calc(env(safe-area-inset-bottom) + 8px);box-shadow:0 -2px 10px rgba(0,0,0,.08);max-width:520px;margin:0 auto}
+nav button{background:none;color:#7a6572;padding:6px 8px;font-size:13px}nav button.on{color:#c2477a;border-bottom:3px solid #e86a9a;border-radius:0}
+.disc{font-size:12px;background:#fdecf3;border-radius:12px;padding:8px 10px;margin:10px 0;color:#8a2d57}
+.bar{display:flex;gap:4px;align-items:flex-end;height:70px;margin-top:8px;direction:ltr}.bar div{flex:1;background:#e86a9a;border-radius:6px 6px 0 0;min-height:2px;position:relative}.bar span{position:absolute;bottom:-18px;left:0;right:0;text-align:center;font-size:10px;color:#7a6572}
+.big{font-size:34px;font-weight:800;color:#c2477a}.ok{color:#2e8b57}.warn{color:#b26a00}
+</style></head><body>
+<h1>مساعد الأم</h1><div class="sub">نصائح عامة من مصادر معروفة، وروتين، ومتابعة وقت الشاشة</div>
+<div class="disc">نصائح عامة، مش بديل لدكتور الأطفال. لو عندك قلق على صحة طفلك كلّمي دكتور.</div>
+<div id="v"></div>
+<nav id="nv"></nav>
+<script>
+const SRC={who:['منظمة الصحة العالمية (WHO)، إرشادات النشاط والسلوك الخامل والنوم لأقل من 5 سنين','https://www.who.int/news/item/24-04-2019-to-grow-up-healthy-children-need-to-sit-less-and-play-more'],aapTv:['الأكاديمية الأمريكية لطب الأطفال (AAP)، HealthyChildren.org','https://www.healthychildren.org/english/family-life/media/pages/why-to-avoid-tv-before-age-2.aspx'],aapSl:['الأكاديمية الأمريكية لطب الأطفال (AAP News)، توصيات النوم','https://publications.aap.org/aapnews/news/13792/Study-73-of-high-school-students-not-getting'],aapS5:['الأكاديمية الأمريكية لطب الأطفال (AAP)، ساعات النوم الموصى بها','https://www.aap.org/en/patient-care/atopic-dermatitis/treatment-of-atopic-dermatitis/promoting-healthy-sleep-for-atopic-dermatitis/']};
+SRC.iycf=['منظمة الصحة العالمية (WHO)، التغذية السليمة للرضع والأطفال الصغار','https://www.who.int/news-room/fact-sheets/detail/infant-and-young-child-feeding'];SRC.nlis=['منظمة الصحة العالمية (WHO)، توصيات تغذية الأطفال 6 لـ 23 شهر','https://www.who.int/data/nutrition/nlis/info/infant-and-young-child-feeding'];SRC.diet=['منظمة الصحة العالمية (WHO)، النظام الغذائي الصحي','https://www.who.int/news-room/fact-sheets/detail/healthy-diet'];SRC.aap24=['الأكاديمية الأمريكية لطب الأطفال (AAP)، متابعة عمر 24 شهر','https://www.healthychildren.org/English/ages-stages/Your-Childs-Checkups/Pages/your-checkup-checklist-24-months-2-Years-Old.aspx'];SRC.aap30=['الأكاديمية الأمريكية لطب الأطفال (AAP)، متابعة عمر 30 شهر','https://www.healthychildren.org/English/ages-stages/Your-Childs-Checkups/Pages/your-checkup-checklist-30-months-old.aspx'];
+const G=[{k:0,n:'أقل من سنة',sl:[12,17],slt:'من 14 لـ 17 ساعة (من 0 لـ 3 شهور) أو من 12 لـ 16 ساعة (من 4 لـ 11 شهر) بالقيلولة',scr:0,tips:[
+['تعملي "وقت على البطن" (Tummy time) للرضيع اللي لسه مبيمشيش: على الأقل 30 دقيقة موزعة على اليوم وهو صاحي.','who'],
+['اللعب على الأرض بشكل تفاعلي بيحرّك الرضيع في أكتر من طريقة. كل ما كان أكتر كان أحسن.','who'],
+['ماتسيبيش الرضيع مربوط في عربية أو كرسي أكل أو محمول على الضهر أكتر من ساعة في المرة.','who'],
+['الشاشات مش موصى بيها للرضع. وفي وقت الهدوء، القراءة والحكي مع الأم أو الأب مشجّع عليهم.','who'],
+['السنة الأولى: النوم المطلوب من 14 لـ 17 ساعة (0 لـ 3 شهور) ومن 12 لـ 16 ساعة (4 لـ 11 شهر)، بالقيلولة.','who']]},
+{k:1,n:'سنة لسنتين',sl:[11,14],slt:'من 11 لـ 14 ساعة بالقيلولة، مع مواعيد نوم وصحيان ثابتة',scr:60,tips:[
+['الطفل من سنة لسنتين محتاج على الأقل 180 دقيقة نشاط بدني متنوع على مدار اليوم. كل ما زاد كان أحسن.','who'],
+['النوم من 11 لـ 14 ساعة بالقيلولة، مع مواعيد نوم وصحيان ثابتة.','who'],
+['عمر سنة: مشاهدة الشاشة وهو قاعد (تلفزيون، فيديو، ألعاب) مش موصى بيها. عمر سنتين: مايزيدش عن ساعة واحدة، وأقل أحسن.','who'],
+['الأكاديمية الأمريكية بتشوف إن الأحسن تجنب التلفزيون والتطبيقات قبل 18 شهر. مكالمة الفيديو مع جد أو أب مسافر مفيهاش مشكلة.','aapTv'],
+['الطفل الصغير بيتعلم أكتر بالتفاعل مع الناس واللمس والتجربة، مش من الشاشة.','aapTv'],
+['وقت القاعدة: القراءة والحكي مع الطفل مشجّع عليهم، وماتسيبيهوش قاعد في كرسي أو عربية أكتر من ساعة في المرة.','who']]},
+{k:2,n:'3 لـ 5 سنين',sl:[10,13],slt:'من 10 لـ 13 ساعة، ممكن تشمل قيلولة، مع مواعيد نوم وصحيان ثابتة',scr:60,tips:[
+['من 3 لـ 4 سنين: على الأقل 180 دقيقة نشاط بدني على مدار اليوم، منها 60 دقيقة على الأقل نشاط متوسط لعالي الشدة.','who'],
+['من 3 لـ 4 سنين: وقت الشاشة وهو قاعد مايزيدش عن ساعة، وأقل أحسن.','who'],
+['من 3 لـ 4 سنين: النوم من 10 لـ 13 ساعة، ممكن تشمل قيلولة، مع مواعيد نوم وصحيان ثابتة.','who'],
+['الأكاديمية الأمريكية بتنصح بحد أقصى ساعة في اليوم للترفيه الإلكتروني من عمر 18 شهر لحد 5 سنين.','aapTv'],
+['من 3 لـ 5 سنين: ساعات النوم الموصى بيها من 10 لـ 13 ساعة في اليوم.','aapS5'],
+['الألغاز والقراءة والحكي مع الطفل أنشطة هادية مفيدة لنموه، وأحسن من الجلوس قدام الشاشة.','who']]},
+{k:3,n:'6 لـ 12 سنة',sl:[9,12],slt:'من 9 لـ 12 ساعة في الليلة',scr:null,tips:[
+['الأطفال من 6 لـ 12 سنة محتاجين من 9 لـ 12 ساعة نوم في الليلة، حسب توصيات أكاديمية طب النوم الأمريكية اللي اعتمدتها الأكاديمية الأمريكية لطب الأطفال.','aapSl']]},
+{k:4,n:'13 لـ 18 سنة',sl:[8,10],slt:'من 8 لـ 10 ساعات في الليلة',scr:null,tips:[
+['المراهقين محتاجين من 8 لـ 10 ساعات نوم في الليلة، حسب توصيات أكاديمية طب النوم الأمريكية اللي اعتمدتها الأكاديمية الأمريكية لطب الأطفال.','aapSl']]}];
+const K='mom_data',def={kids:[],cur:0,routine:null,screen:{}};let D;try{D=Object.assign({},def,JSON.parse(localStorage.getItem(K)||'{}'))}catch(e){D=def}
+const save=()=>localStorage.setItem(K,JSON.stringify(D));
+const $=(t,a={},...c)=>{const e=document.createElement(t);for(const k in a){if(k==='on')for(const x in a.on)e.addEventListener(x,a.on[x]);else if(k==='html')e.innerHTML=a[k];else e.setAttribute(k,a[k])}c.flat().forEach(x=>e.append(x&&x.nodeType?x:document.createTextNode(x==null?'':x)));return e};
+const day=d=>{const x=d||new Date();return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0')};
+function grp(b){const m=(Date.now()-new Date(b).getTime())/2629800000;return m<12?0:m<36?1:m<72?2:m<156?3:4}
+function ageFull(b){const d=new Date(b),n=new Date();let y=n.getFullYear()-d.getFullYear(),m=n.getMonth()-d.getMonth(),dd=n.getDate()-d.getDate();if(dd<0){m--;dd+=new Date(n.getFullYear(),n.getMonth(),0).getDate()}if(m<0){y--;m+=12}return [y?y+' سنة':'',m?m+' شهر':'',dd+' يوم'].filter(Boolean).join(' و ')}
+function ageTxt(b){const m=Math.floor((Date.now()-new Date(b).getTime())/2629800000);return m<24?m+' شهر':Math.floor(m/12)+' سنة'}
+const kid=()=>D.kids[D.cur];
+let tab='tips';const V=document.getElementById('v');
+const TABS=[['tips','النصائح'],['fd','التغذية'],['rt','الروتين'],['sc','الشاشة'],['ch','الأطفال']];
+function nav(){const n=document.getElementById('nv');n.innerHTML='';TABS.forEach(([k,l])=>n.append($('button',{class:tab===k?'on':'',on:{click:()=>{tab=k;render()}}},l)))}
+function srcLine(s){const [t,u]=SRC[s];return $('div',{class:'src'},'المصدر: ',$('a',{href:u,target:'_blank',rel:'noopener'},t),' | تاريخ القراءة: 27 نوفمبر 2026')}
+function needKid(){return $('div',{class:'card'},$('b',{},'ضيفي بيانات طفلك الأول'),$('div',{class:'sub'},'الاسم وتاريخ الميلاد بيتخزنوا على موبايلك بس.'),$('div',{style:'margin-top:8px'},$('button',{on:{click:()=>{tab='ch';render()}}},'إضافة طفل')))}
+function render(){nav();V.innerHTML='';({tips,fd,rt,sc,ch})[tab]()}
+
+function feed(b){const mo=Math.floor((Date.now()-new Date(b).getTime())/2629800000);const sug=['diet'];
+const common=[['الكربوهيدرات تيجي أساسا من الحبوب الكاملة والخضار والفاكهة والبقوليات (عدس، حمص، فول).','diet'],['البروتين ممكن يبقى من مصادر حيوانية ونباتية. الأكل من مصدر حيواني لسه مهم للأطفال عشان العناصر الغذائية.','diet'],['السكريات الحرة (المضافة والموجودة في العسل والعصير) لازم تفضل أقل من 10% من سعرات اليوم.','diet']];
+if(mo<6)return {n:'أقل من 6 شهور',meals:'رضاعة طبيعية حصرية (لبن الأم بس) ومن غير أي أكل أو شرب تاني',ms:'iycf',facts:[['منظمة الصحة واليونيسف بيوصوا بالبدء في الرضاعة خلال ساعة من الولادة، ورضاعة طبيعية حصرية لأول 6 شهور.','iycf'],['الرضاعة بتفضل متكررة لحد سنتين أو أكتر.','iycf']]};
+if(mo<9)return {n:'من 6 لـ 8 شهور',meals:'من 2 لـ 3 وجبات في اليوم من الأكل التكميلي، مع استمرار الرضاعة',ms:'iycf',facts:[['حوالي 6 شهور احتياج الطفل للطاقة والعناصر بيزيد عن اللي لبن الأم بيوفره، فالأكل التكميلي ضروري.','iycf'],['ابدأي بكميات صغيرة وزوديها تدريجيا مع كبر الطفل.','iycf'],['زودي قوام الأكل وتنوعه تدريجيا.','iycf'],['التنوع المطلوب: على الأقل 5 مجموعات غذائية في اليوم.','nlis'],['لو الطفل تعبان: زودي السوائل والرضاعة، وقدّمي أكل طري هو بيحبه.','iycf']]};
+if(mo<24)return {n:'من 9 شهور لسنتين',meals:'من 3 لـ 4 وجبات في اليوم، ومعاها سناك واحد أو اتنين حسب الحاجة، مع استمرار الرضاعة',ms:'iycf',facts:[['التنوع المطلوب: على الأقل 5 مجموعات غذائية في اليوم.','nlis'],['زودي قوام الأكل وتنوعه تدريجيا.','iycf'],['الرضاعة بتفضل لحد سنتين أو أكتر.','iycf'],['لو الطفل تعبان: زودي السوائل والرضاعة، وقدّمي أكل طري هو بيحبه.','iycf']].concat(common)};
+if(mo<36)return {n:'سنتين لـ 3 سنين',meals:'3 وجبات في اليوم ومعاها سناك واحد أو اتنين (حسب الأكاديمية الأمريكية لعمر سنتين وسنتين ونص)',ms:'aap24',facts:[['قدّمي اختيارات صحية، وسيبي الطفل يحدد هو ياكل قد إيه.','aap24'],['الاختناق خطر في السن ده، راجعي قايمة الأكل الخطر من الأكاديمية الأمريكية.','aap24'],['الفاكهة والخضار: على الأقل 250 جرام في اليوم لعمر 2 لـ 5 سنين.','diet'],['الألياف: على الأقل 15 جرام في اليوم لعمر 2 لـ 5 سنين.','diet']].concat(common)};
+if(mo<72)return {n:'من 3 لـ 5 سنين',meals:'مفيش رقم محدد لعدد الوجبات للسن ده في المصادر اللي استخدمناها (الأكاديمية الأمريكية ذكرت 3 وجبات وسناك أو اتنين لعمر سنتين وسنتين ونص)',ms:'aap30',facts:[['الفاكهة والخضار: على الأقل 250 جرام في اليوم لعمر 2 لـ 5 سنين.','diet'],['الألياف: على الأقل 15 جرام في اليوم لعمر 2 لـ 5 سنين.','diet'],['قدّمي أكل صحي وسيبي الطفل يحدد الكمية (من إرشادات الأكاديمية الأمريكية لعمر سنتين ونص).','aap30']].concat(common)};
+const ten=mo>=120;return {n:mo<156?(ten?'من 10 لـ 12 سنة':'من 6 لـ 9 سنين'):'من 13 لـ 18 سنة',meals:'مفيش رقم محدد لعدد الوجبات للسن ده في المصادر اللي استخدمناها',ms:'diet',facts:[[ten?'الفاكهة والخضار: على الأقل 400 جرام في اليوم لمن فوق 10 سنين.':'الفاكهة والخضار: على الأقل 350 جرام في اليوم لعمر 6 لـ 9 سنين.','diet'],[ten?'الألياف: على الأقل 25 جرام في اليوم لمن فوق 10 سنين.':'الألياف: على الأقل 21 جرام في اليوم لعمر 6 لـ 9 سنين.','diet']].concat(common)}}
+function fd(){const k=kid();if(!k)return V.append(needKid());const f=feed(k.b);const doy=Math.floor((new Date()-new Date(new Date().getFullYear(),0,0))/864e5);const t=f.facts[doy%f.facts.length];
+V.append($('h2',{},'تغذية '+k.n),$('div',{class:'card'},$('div',{class:'sub'},'السن النهارده'),$('div',{class:'big',style:'font-size:22px'},ageFull(k.b)),$('div',{class:'sub'},'الفئة: '+f.n)),$('div',{class:'card'},$('b',{},'الوجبات في اليوم'),$('div',{style:'font-size:17px;margin-top:4px'},f.meals),srcLine(f.ms)),$('h2',{},'نقطة تغذية النهارده'),$('div',{class:'card'},$('div',{style:'font-size:17px'},t[0]),srcLine(t[1])),$('h2',{},'كل إرشادات التغذية للفئة دي'));f.facts.forEach(x=>V.append($('div',{class:'card'},x[0],srcLine(x[1]))));V.append($('div',{class:'disc'},'معلومات عامة من مصادر معروفة، مش خطة أكل مخصصة ومش بديل لدكتور أو أخصائي تغذية. لو فيه حساسية أو مشكلة في الوزن أو النمو اسألي الدكتور.'))}
+function tips(){const k=kid();if(!k)return V.append(needKid());const g=G[grp(k.b)];const doy=Math.floor((new Date()-new Date(new Date().getFullYear(),0,0))/864e5);const t=g.tips[doy%g.tips.length];
+V.append($('h2',{},'نصيحة النهارده لـ '+k.n+' ('+ageTxt(k.b)+")"),$('div',{class:'card'},$('div',{style:'font-size:17px'},t[0]),srcLine(t[1])),$('h2',{},'كل النصائح لفئة '+g.n));
+g.tips.forEach(x=>V.append($('div',{class:'card'},x[0],srcLine(x[1]))))}
+function rt(){const k=kid();if(!k)return V.append(needKid());const g=G[grp(k.b)];if(!D.routine)D.routine=[{t:'07:00',n:'صحيان'},{t:'08:00',n:'فطار'},{t:'16:00',n:'مذاكرة أو لعب هادي'},{t:'19:00',n:'عشا'},{t:'20:30',n:'نوم'}];
+const wake=D.routine.find(r=>r.n==='صحيان'),bed=D.routine.find(r=>r.n==='نوم');let info='';
+if(wake&&bed){const [a,b]=wake.t.split(':').map(Number),[c,d]=bed.t.split(':').map(Number);let h=((a*60+b)-(c*60+d)+1440)%1440/60;info=$('div',{class:'card'},$('div',{},'ساعات النوم في روتينك: ',$('b',{},h.toFixed(1)+' ساعة')),$('div',{class:'sub'},'النطاق الموصى بيه لفئة '+g.n+': '+g.slt+(h<g.sl[0]?' (أقل من النطاق)':h>g.sl[1]+2?' (أكتر من النطاق)':'')),srcLine(g.k<2?'who':g.k==2?'aapS5':'aapSl'),$('div',{class:'sub'},'بتحسب من وقت النوم لوقت الصحيان، بدون قيلولة النهار.'))}
+V.append($('h2',{},'روتين '+k.n),info);D.routine.sort((x,y)=>x.t.localeCompare(y.t));
+D.routine.forEach((r,i)=>V.append($('div',{class:'card row'},$('input',{type:'time',value:r.t,on:{change:e=>{r.t=e.target.value;save();rt0()}}}),$('input',{value:r.n,style:'flex:1',on:{change:e=>{r.n=e.target.value;save();rt0()}}}),$('button',{class:'g s',on:{click:()=>{D.routine.splice(i,1);save();rt0()}}},'حذف'))));
+const nt=$('input',{value:'',placeholder:'نشاط جديد'}),tt=$('input',{type:'time',value:'12:00'});V.append($('div',{class:'card row'},tt,nt,$('button',{class:'s',on:{click:()=>{if(!nt.value.trim())return;D.routine.push({t:tt.value||'12:00',n:nt.value.trim().slice(0,40)});save();rt0()}}},'إضافة')),$('div',{class:'sub'},'لتحسب ساعات النوم، سمّي الأنشطة "صحيان" و"نوم".'))}
+function rt0(){render()}
+function sc(){const k=kid();if(!k)return V.append(needKid());const g=G[grp(k.b)];D.screen[k.id]=D.screen[k.id]||{};const S=D.screen[k.id],t=day(),m=S[t]||0;
+let note='';if(g.scr===0)note='الشاشات مش موصى بيها للرضع.';else if(g.k==1)note='عمر سنة: الشاشة وهو قاعد مش موصى بيها. عمر سنتين: لحد ساعة (60 دقيقة) في اليوم، وأقل أحسن. والأكاديمية الأمريكية بتفضل تجنبها قبل 18 شهر.';else if(g.scr)note='الحد المرجعي: لحد '+g.scr+' دقيقة في اليوم (وأقل أحسن).';else note='مفيش حد رقمي موحد لسن '+g.n+' في المصادر اللي استخدمناها. الأكاديمية الأمريكية بتقول مفيش رقم واحد يناسب كل الأطفال، فاحنا بنتابع بس.';
+const add=n=>$('button',{class:'s',on:{click:()=>{S[t]=Math.max(0,(S[t]||0)+n);save();render()}}},(n>0?'+':'')+n+' د');
+V.append($('h2',{},'وقت الشاشة النهارده لـ '+k.n),$('div',{class:'card'},$('div',{class:'big'},m+' دقيقة'),$('div',{class:'row',style:'margin-top:8px'},add(5),add(15),add(30),add(-15)),$('div',{class:'sub',style:'margin-top:8px'},note),g.k<3?[srcLine(g.k==0?'who':'who')]:'' ));
+const days=[...Array(7)].map((_,i)=>{const d=new Date();d.setDate(d.getDate()-6+i);return [day(d),['ح','ن','ث','ر','خ','ج','س'][d.getDay()]]});const mx=Math.max(30,...days.map(d=>S[d[0]]||0));
+V.append($('div',{class:'card'},$('b',{},'آخر 7 أيام (دقيقة)'),$('div',{class:'bar'},days.map(d=>$('div',{style:'height:'+Math.max(2,(S[d[0]]||0)/mx*70)+'px',title:(S[d[0]]||0)+''},$('span',{},d[1]+' '+(S[d[0]]||0)))),),$('div',{style:'height:14px'})))}
+function ch(){V.append($('h2',{},'الأطفال'));D.kids.forEach((k,i)=>V.append($('div',{class:'card row'},$('div',{},$('b',{},k.n),' ',ageTxt(k.b),' | ',G[grp(k.b)].n),$('div',{},$('button',{class:i===D.cur?'s':'g s',on:{click:()=>{D.cur=i;save();render()}}},i===D.cur?'مختار':'اختيار'),' ',$('button',{class:'g s',on:{click:()=>{if(confirm('حذف '+k.n+' وبياناته؟')){D.kids.splice(i,1);D.cur=0;save();render()}}}},'حذف')))));
+const n=$('input',{placeholder:'اسم الطفل',maxlength:30}),b=$('input',{type:'date',max:day()});V.append($('div',{class:'card'},$('b',{},'إضافة طفل'),$('div',{style:'margin:8px 0'},n),$('div',{},'تاريخ الميلاد: ',b),$('div',{style:'margin-top:10px'},$('button',{on:{click:()=>{if(!n.value.trim()||!b.value)return;D.kids.push({id:'k'+Date.now(),n:n.value.trim(),b:b.value});D.cur=D.kids.length-1;save();tab='tips';render()}}},'حفظ'))),$('div',{class:'sub'},'كل البيانات بتتخزن على موبايلك بس. مفيش حسابات ولا إرسال بيانات لأي مكان.'),$('div',{style:'margin-top:8px'},$('button',{class:'g s',on:{click:()=>{if(confirm('مسح كل البيانات من الجهاز؟')){localStorage.removeItem(K);D=Object.assign({},def,{kids:[]});render()}}}},'مسح كل البيانات')))}
+if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+render();
+</script></body></html>
