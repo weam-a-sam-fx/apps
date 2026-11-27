@@ -12,7 +12,7 @@ button{font:inherit;color:#fff;background:#8e7dff;border:0;border-radius:14px;pa
 <div class="bar"><span class="pill" id="mv"></span><span class="pill" id="tm"></span><span class="pill" id="bs"></span></div>
 <div class="grid" id="g"></div>
 <div class="msg" id="ms"></div>
-<div class="bar"><button id="nw"></button><button class="g" id="lg"></button><button class="g" id="ins" hidden></button></div>
+<div class="bar"><button id="nw"></button><button class="g" id="lg"></button><button class="g" id="ins" hidden></button><a href="blocks.html" id="bl" style="color:#fff;background:#2a1f63;border-radius:14px;padding:10px 14px;font-weight:700;text-decoration:none"></a></div>
 <div class="note" id="nt"></div>
 <script>
 const S={ar:{t:'لعبة الذاكرة',mv:'الحركات',tm:'الوقت',bs:'أفضل',nw:'لعبة جديدة',win:'برافو! خلصتها في {m} حركة و{s} ثانية',rec:'رقم قياسي جديد!',ins:'تثبيت التطبيق',nt:'لعبة مجانية تشتغل بدون إنترنت. مفيش حسابات ولا جمع بيانات، النتائج بتتحفظ على جهازك بس.'},en:{t:'Memory Match',mv:'Moves',tm:'Time',bs:'Best',nw:'New game',win:'Well done! {m} moves, {s} seconds',rec:'New record!',ins:'Install app',nt:'Free game that works offline. No accounts, no data collection. Scores stay on your device.'}};
@@ -20,7 +20,7 @@ let L=localStorage.getItem('pg_lang')||((navigator.language||'ar').startsWith('a
 const E=['🦊','🐼','🦁','🐸','🐙','🦄','🐝','🐳'];let cards=[],open=[],lock=false,moves=0,t0=0,tick=null,done=0;
 const $=i=>document.getElementById(i),T=k=>S[L][k];
 function bestKey(){return 'pg_best'}
-function ui(){document.documentElement.lang=L;document.documentElement.dir=L==='ar'?'rtl':'ltr';$('t').textContent=T('t');$('nw').textContent=T('nw');$('lg').textContent=L==='ar'?'EN':'AR';$('ins').textContent=T('ins');$('nt').textContent=T('nt');stat()}
+function ui(){document.documentElement.lang=L;document.documentElement.dir=L==='ar'?'rtl':'ltr';$('t').textContent=T('t');$('nw').textContent=T('nw');$('lg').textContent=L==='ar'?'EN':'AR';$('ins').textContent=T('ins');$('bl').textContent=L==='ar'?'تركيب الأشكال':'Shape Fit';$('nt').textContent=T('nt');stat()}
 function stat(){$('mv').textContent=T('mv')+': '+moves;const s=t0?Math.floor((Date.now()-t0)/1000):0;$('tm').textContent=T('tm')+': '+s+'s';const b=localStorage.getItem(bestKey());$('bs').textContent=T('bs')+': '+(b?b:'-')}
 function newGame(){clearInterval(tick);t0=0;moves=0;open=[];lock=false;done=0;$('ms').textContent='';const a=E.concat(E);for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}
 const g=$('g');g.innerHTML='';cards=a.map((e,i)=>{const b=document.createElement('button');b.className='c';b.setAttribute('aria-label','card '+(i+1));b.innerHTML='<div class="in"><div class="ba"></div><div class="fa">'+e+'</div></div>';b.onclick=()=>flip(i);g.append(b);return {e,b,m:false}});stat()}
