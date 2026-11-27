@@ -1,5 +1,5 @@
 /* Shared app core: i18n, router, UI helpers, tools. Each app supplies window.APP. */
-const BUILD='apps-v54';
+const BUILD='apps-v55';
 const LANGS=[['ar','العربية','rtl'],['en','English','ltr'],['fr','Français','ltr'],['es','Español','ltr'],['tr','Türkçe','ltr'],['fa','فارسی','rtl'],['ur','اردو','rtl'],['hi','हिन्दी','ltr']];
 const T={
 home:['الرئيسية','Home','Accueil','Inicio','Ana sayfa','خانه','ہوم','होम'],
@@ -62,7 +62,7 @@ entry:['الدخول','Entry','Entrée','Entrada','Giriş','ورود','انٹر�
 sl:['وقف الخسارة','Stop loss','Stop loss','Stop loss','Zarar durdur','حد ضرر','اسٹاپ لاس','स्टॉप लॉस'],
 tp:['الهدف','Take profit','Objectif','Objetivo','Kâr al','حد سود','ٹیک پرافٹ','टेक प्रॉफ़िट'],
 ratio:['النسبة','Ratio','Ratio','Ratio','Oran','نسبت','تناسب','अनुपात']};
-const L=localStorage.getItem('lang')||(LANGS.find(l=>(navigator.language||'').startsWith(l[0]))||LANGS[0])[0];
+const L=localStorage.getItem('lang')||'en';
 const LI=Math.max(0,LANGS.findIndex(l=>l[0]===L));
 const t=k=>(T[k]&&(T[k][LI]||T[k][1]))||(APP.str&&APP.str[k]&&(APP.str[k][LI]||APP.str[k][1]))||k;
 document.documentElement.lang=L;document.documentElement.dir=LANGS[LI][2];
@@ -358,5 +358,5 @@ o.append(h('div',{style:'display:flex;justify-content:space-between;align-items:
 o.append(h('h3',{dir:'auto',style:'margin:14px 0 4px'},TH.tt[LI]));(TOUR[APP.id]||TOUR.wf).forEach(s=>{if(s[0]==='phone')return;const e=s[1][LI]||s[1][1];o.append(h('div',{class:'card',style:'display:flex;gap:12px;align-items:flex-start;margin:8px 0;cursor:pointer',on:{click:()=>{close();const m={chart:'trades',score:'firms'}[s[0]]||s[0];if(APP.tabs.some(x=>x.id===m))location.hash='#/'+m}}},h('div',{style:'flex:0 0 34px;color:var(--gold);display:flex;justify-content:center'},icon(s[0])),h('div',{dir:'auto'},h('b',{},e.t),h('div',{class:'mu',style:'margin-top:4px'},e.d))))});o.append(h('h3',{dir:'auto',style:'margin:18px 0 4px'},TH.wk[LI]));g.st.forEach((s,i)=>o.append(h('div',{class:'card',style:'display:flex;gap:12px;align-items:flex-start;margin:8px 0'},h('div',{style:'flex:0 0 32px;height:32px;border-radius:50%;background:var(--gold);color:#111;font-weight:700;display:flex;align-items:center;justify-content:center'},String(i+1)),h('div',{dir:'auto'},h('b',{},LI>=2&&GA[i]?GA[i][LI-2][0]:ar?s[0]:s[2]),h('div',{class:'mu',style:'margin-top:4px'},LI>=2&&GA[i]?GA[i][LI-2][1]:ar?s[1]:s[3])))));
 o.append(h('p',{class:'warn',dir:'auto'},xl('dis')),h('a',{class:'btn ghost',href:'privacy.html',target:'_blank',rel:'noopener'},x('pv')),h('button',{class:'btn',type:'button',on:{click:close}},x('cl')));document.body.append(o)}
 
-function offUI(){try{const ar=(localStorage.getItem('lang')||'ar')==='ar';let b=document.getElementById('offb');if(!b){b=document.createElement('div');b.id='offb';b.style.cssText='position:fixed;top:0;left:0;right:0;z-index:99999;background:#7a4b00;color:#fff;font:600 12px Cairo,sans-serif;text-align:center;padding:5px 8px;display:none';document.body.append(b)}const u=()=>{if(navigator.onLine){b.style.display='none';return}fetch('data.json').then(r=>r.json()).then(d=>{b.textContent=ar?'أوفلاين: شغال على آخر بيانات محفوظة (تحديث '+d.asof+'). السعر والشارت والتقويم محتاجين نت.':'Offline: showing last saved data (updated '+d.asof+'). Live price, chart and calendar need internet.';b.style.display='block'}).catch(()=>{b.textContent=ar?'أوفلاين':'Offline';b.style.display='block'})};addEventListener('online',u);addEventListener('offline',u);u()}catch(e){}}
+function offUI(){try{const ar=(localStorage.getItem('lang')||'en')==='ar';let b=document.getElementById('offb');if(!b){b=document.createElement('div');b.id='offb';b.style.cssText='position:fixed;top:0;left:0;right:0;z-index:99999;background:#7a4b00;color:#fff;font:600 12px Cairo,sans-serif;text-align:center;padding:5px 8px;display:none';document.body.append(b)}const u=()=>{if(navigator.onLine){b.style.display='none';return}fetch('data.json').then(r=>r.json()).then(d=>{b.textContent=ar?'أوفلاين: شغال على آخر بيانات محفوظة (تحديث '+d.asof+'). السعر والشارت والتقويم محتاجين نت.':'Offline: showing last saved data (updated '+d.asof+'). Live price, chart and calendar need internet.';b.style.display='block'}).catch(()=>{b.textContent=ar?'أوفلاين':'Offline';b.style.display='block'})};addEventListener('online',u);addEventListener('offline',u);u()}catch(e){}}
 if(document.body)offUI();else addEventListener('DOMContentLoaded',offUI);
