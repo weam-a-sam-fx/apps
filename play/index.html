@@ -16,7 +16,7 @@ button{font:inherit;color:#fff;background:#8e7dff;border:0;border-radius:14px;pa
 <div class="note" id="nt"></div><div class="note"><a href="about.html" style="color:#b9b2e6">عن الألعاب | About</a></div>
 <script>
 const S={ar:{t:'لعبة الذاكرة',mv:'الحركات',tm:'الوقت',bs:'أفضل',nw:'لعبة جديدة',win:'برافو! خلصتها في {m} حركة و{s} ثانية',rec:'رقم قياسي جديد!',ins:'تثبيت التطبيق',nt:'لعبة مجانية تشتغل بدون إنترنت. مفيش حسابات ولا جمع بيانات، النتائج بتتحفظ على جهازك بس.'},en:{t:'Memory Match',mv:'Moves',tm:'Time',bs:'Best',nw:'New game',win:'Well done! {m} moves, {s} seconds',rec:'New record!',ins:'Install app',nt:'Free game that works offline. No accounts, no data collection. Scores stay on your device.'}};
-let L=localStorage.getItem('pg_lang')||((navigator.language||'ar').startsWith('ar')?'ar':'en');
+let L=localStorage.getItem('pg_lang')||('en');
 const E=['🦊','🐼','🦁','🐸','🐙','🦄','🐝','🐳'];let cards=[],open=[],lock=false,moves=0,t0=0,tick=null,done=0;
 const $=i=>document.getElementById(i),T=k=>S[L][k];
 function bestKey(){return 'pg_best'}
