@@ -27,7 +27,7 @@ const g=$('g');g.innerHTML='';cards=a.map((e,i)=>{const b=document.createElement
 function flip(i){const c=cards[i];if(lock||c.m||open.includes(i))return;if(!t0){t0=Date.now();tick=setInterval(stat,1000)}c.b.classList.add('f');open.push(i);if(open.length===2){moves++;const[x,y]=open;if(cards[x].e===cards[y].e){[x,y].forEach(k=>{cards[k].m=true;cards[k].b.classList.add('m')});open=[];done++;if(navigator.vibrate)navigator.vibrate(30);if(done===E.length)win()}else{lock=true;setTimeout(()=>{[x,y].forEach(k=>cards[k].b.classList.remove('f'));open=[];lock=false},700)}}stat()}
 function win(){clearInterval(tick);const s=Math.floor((Date.now()-t0)/1000);let m=T('win').replace('{m}',moves).replace('{s}',s);const b=+localStorage.getItem(bestKey())||0;if(!b||moves<b){localStorage.setItem(bestKey(),moves);m+=' | '+T('rec')}$('ms').textContent=m;stat()}
 $('nw').onclick=newGame;$('lg').onclick=()=>{L=L==='ar'?'en':'ar';localStorage.setItem('pg_lang',L);ui()};
-let dp=null;addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;if(!matchMedia('(display-mode: standalone)').matches)$('ins').hidden=false});$('ins').onclick=async()=>{if(dp){dp.prompt();await dp.userChoice;dp=null;$('ins').hidden=true}};
+let dp=null;addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;if(!matchMedia('(display-mode: standalone)').matches&&!/WeamAPK/.test(navigator.userAgent))$('ins').hidden=false});$('ins').onclick=async()=>{if(dp){dp.prompt();await dp.userChoice;dp=null;$('ins').hidden=true}};
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 ui();newGame();
 </script></body></html>
