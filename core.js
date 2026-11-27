@@ -1,5 +1,5 @@
 /* Shared app core: i18n, router, UI helpers, tools. Each app supplies window.APP. */
-const BUILD='apps-v50';
+const BUILD='apps-v51';
 const LANGS=[['ar','العربية','rtl'],['en','English','ltr'],['fr','Français','ltr'],['es','Español','ltr'],['tr','Türkçe','ltr'],['fa','فارسی','rtl'],['ur','اردو','rtl'],['hi','हिन्दी','ltr']];
 const T={
 home:['الرئيسية','Home','Accueil','Inicio','Ana sayfa','خانه','ہوم','होम'],
@@ -7,6 +7,7 @@ firms:['الشركات','Firms','Sociétés','Firmas','Firmalar','شرکت‌ه�
 compare:['قارن','Compare','Comparer','Comparar','Karşılaştır','مقایسه','موازنہ','तुलना'],
 tools:['أدوات','Tools','Outils','Herramientas','Araçlar','ابزار','ٹولز','टूल्स'],
 journal:['اليوميات','Journal','Journal','Diario','Günlük','ژورنال','جرنل','जर्नल'],
+ana:['التحليلات','Analyses','Analyses','Análisis','Analizler','تحلیل‌ها','تجزیے','विश्लेषण'],
 learn:['تعلّم','Learn','Apprendre','Aprender','Öğren','آموزش','سیکھیں','सीखें'],
 more:['المزيد','More','Plus','Más','Daha fazla','بیشتر','مزید','और'],
 language:['اللغة','Language','Langue','Idioma','Dil','زبان','زبان','भाषा'],
