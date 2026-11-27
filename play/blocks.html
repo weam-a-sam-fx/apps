@@ -17,7 +17,7 @@ button{font:inherit;color:#fff;background:#8e7dff;border:0;border-radius:14px;pa
 <div class="note" id="nt"></div><div id="gh"></div>
 <script>
 const S={ar:{t:'تركيب الأشكال',sc:'النقاط',bs:'أفضل',nw:'لعبة جديدة',hm:'لعبة الذاكرة',over:'خلصت الحركات! نقاطك: {s}',rec:'رقم قياسي جديد!',nt:'اسحب الأشكال على اللوحة وكمّل صف أو عمود عشان يتمسح. بدون إنترنت ولا جمع بيانات.'},en:{t:'Shape Fit',sc:'Score',bs:'Best',nw:'New game',hm:'Memory game',over:'No moves left! Score: {s}',rec:'New record!',nt:'Drag shapes onto the board and fill a row or column to clear it. Offline, no data collection.'}};
-let L=localStorage.getItem('pg_lang')||((navigator.language||'ar').startsWith('ar')?'ar':'en');const $=i=>document.getElementById(i),T=k=>S[L][k];
+let L=localStorage.getItem('pg_lang')||('en');const $=i=>document.getElementById(i),T=k=>S[L][k];
 const N=8,COL=['#ff6b9d','#4ecdc4','#ffd166','#8e7dff','#ff9f68','#6bcB77'];
 const SH=[[[1]],[[1,1]],[[1],[1]],[[1,1,1]],[[1],[1],[1]],[[1,1,1,1]],[[1],[1],[1],[1]],[[1,1],[1,1]],[[1,1,1],[1,1,1],[1,1,1]],[[1,0],[1,1]],[[0,1],[1,1]],[[1,1],[1,0]],[[1,1],[0,1]],[[1,0,0],[1,0,0],[1,1,1]],[[1,1,1],[0,0,1],[0,0,1]],[[1,1,1],[0,1,0]],[[0,1,0],[1,1,1]],[[1,1,0],[0,1,1]],[[0,1,1],[1,1,0]],[[1,1,1,1,1]]];
 let g,pcs,score,over;const cells=[];
