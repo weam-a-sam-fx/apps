@@ -1,57 +1,79 @@
 [
  {
+  "date": "2026-11-26",
   "date_ar": "26 نوفمبر 2026",
-  "text_ar": "FundingPips: 1 Step Labs بقى دائم حسب مركز المساعدة الرسمي (قراءة 26 نوفمبر 2026): مرحلة تقييم واحدة بهدف ربح 5% وتقسيم 85%، وحساب 100K بسعر 99$.",
-  "text_en": "FundingPips: 1 Step Labs is now permanent per the official help center (read 26 Nov 2026): one evaluation phase with a 5% profit target and an 85% split, and a 100K account at 99 dollars."
+  "text_ar": "FundingPips: 1 Step Labs بقى دائم حسب مركز المساعدة الرسمي (قراءة 26 نوفمبر 2026): مرحلة تقييم واحدة بهدف ربح 5% وتقسيم 85%، وحساب 100K بسعر 99 دولار.",
+  "text_en": "FundingPips: 1 Step Labs is now permanent per the official help center (read 26 Nov 2026): one evaluation phase with a 5% profit target and an 85% split, and a 100K account at 99 dollars.",
+  "url": "https://fundingpips.com"
  },
  {
+  "date": "2026-11-26",
   "date_ar": "26 نوفمبر 2026",
   "text_ar": "FundedNext Futures: حساب Direct متاح بأحجام 50K و100K و150K ومن غير هدف ربح، حسب مركز المساعدة الرسمي للعقود الآجلة (قراءة 26 نوفمبر 2026).",
-  "text_en": "FundedNext Futures: a Direct account is available in 50K, 100K and 150K sizes with no profit target, per the official futures help center (read 26 Nov 2026)."
+  "text_en": "FundedNext Futures: a Direct account is available in 50K, 100K and 150K sizes with no profit target, per the official futures help center (read 26 Nov 2026).",
+  "url": "https://fundednext.com"
  },
  {
+  "date": "2026-11-25",
   "date_ar": "25 نوفمبر 2026",
   "text_ar": "Apex Trader Funding: أُضيفت للدليل (عقود آجلة)، بيانات التقييم من صفحة EOD الرسمية وتقييم Trustpilot 4.2 (قراءة 25 نوفمبر 2026).",
-  "text_en": "Apex Trader Funding: added to the directory (futures); evaluation data from the official EOD page and Trustpilot 4.2 (read 25 Nov 2026)."
+  "text_en": "Apex Trader Funding: added to the directory (futures); evaluation data from the official EOD page and Trustpilot 4.2 (read 25 Nov 2026).",
+  "url": "https://apextraderfunding.com"
  },
  {
+  "date": "2026-11-25",
   "date_ar": "25 نوفمبر 2026",
   "text_ar": "Funded Guild: اتضافت خطط الحسابات الموثقة لمعظم الشركات من صفحاتها الرسمية، وفلتر نوع الحساب بيعتمد عليها.",
-  "text_en": "Funded Guild: documented account plans (1-Step, Instant and others) were added for most firms from their official pages, and the account-type filter uses them."
+  "text_en": "Funded Guild: documented account plans (1-Step, Instant and others) were added for most firms from their official pages, and the account-type filter uses them.",
+  "url": "https://sites.google.com/view/funded-guild"
  },
  {
+  "date": "2026-11-25",
   "date_ar": "25 نوفمبر 2026",
   "text_ar": "عروض بلاك فرايداي شغالة على المواقع الرسمية: FundingPips وFTMO وFundedNext وHola Prime وFXIFY. التفاصيل والأكواد في شريط العروض.",
-  "text_en": "Black Friday offers are live on the official sites: FundingPips, FTMO, FundedNext, Hola Prime and FXIFY. Details and codes in the offers sidebar."
+  "text_en": "Black Friday offers are live on the official sites: FundingPips, FTMO, FundedNext, Hola Prime and FXIFY. Details and codes in the offers sidebar.",
+  "url": null
  },
  {
+  "date": "2026-11-02",
   "date_ar": "2 نوفمبر 2026",
   "text_ar": "The5ers: صفحة قواعد 2-Step الرسمية (محدّثة 2 نوفمبر 2026) بتعرض نسختين: New (10% ثم 5%) وClassic (8% ثم 5%) بنفس حدود الخسارة.",
-  "text_en": "The5ers: the official 2-Step rules page (updated 2 November 2026) lists two versions: New (10% then 5%) and Classic (8% then 5%), with the same loss limits."
+  "text_en": "The5ers: the official 2-Step rules page (updated 2 November 2026) lists two versions: New (10% then 5%) and Classic (8% then 5%), with the same loss limits.",
+  "url": "https://the5ers.com"
  },
  {
+  "date": "2026-11",
   "date_ar": "نوفمبر 2026",
   "text_ar": "Hola Prime: إيقاف منصة DXtrade للحسابات الجديدة في الفوركس، حسب دليل القواعد الرسمي على موقعها.",
-  "text_en": "Hola Prime: DXtrade discontinued for new forex accounts, per the official rulebook on its site."
+  "text_en": "Hola Prime: DXtrade discontinued for new forex accounts, per the official rulebook on its site.",
+  "url": "https://holaprime.com"
  },
  {
-  "date_ar": "فحص نوفمبر 2026",
+  "date": "2026-11",
+  "date_ar": "نوفمبر 2026",
   "text_ar": "FTMO تدعم حاليًا MT4 وMT5 وcTrader وTradingView، حسب صفحتها الرئيسية الرسمية.",
-  "text_en": "FTMO currently supports MT4, MT5, cTrader and TradingView, per its official homepage."
+  "text_en": "FTMO currently supports MT4, MT5, cTrader and TradingView, per its official homepage.",
+  "url": "https://ftmo.com"
  },
  {
+  "date": "2026-10",
   "date_ar": "أكتوبر 2026",
   "text_ar": "FunderPro نشرت بيان شفافية على مدونتها الرسمية بخصوص حجب تقييمها على Trustpilot.",
-  "text_en": "FunderPro published a transparency statement on its official blog about its Trustpilot rating being hidden."
+  "text_en": "FunderPro published a transparency statement on its official blog about its Trustpilot rating being hidden.",
+  "url": "https://funderpro.com"
  },
  {
+  "date": "2026-07-24",
   "date_ar": "24 يوليو 2026",
   "text_ar": "FundingPips: هدف الربح 10% في 2 Step Standard لم يعد متاحًا من 24 يوليو 2026، حسب مركز المساعدة الرسمي.",
-  "text_en": "FundingPips: the 10% profit target on 2 Step Standard is no longer offered since 24 July 2026, per the official help center."
+  "text_en": "FundingPips: the 10% profit target on 2 Step Standard is no longer offered since 24 July 2026, per the official help center.",
+  "url": "https://fundingpips.com"
  },
  {
+  "date": "2026-06-01",
   "date_ar": "يونيو 2026",
   "text_ar": "The5ers: انتهى عرض خصم 15% في 1 يونيو 2026، ولا يوجد عرض جديد معلن حتى آخر فحص.",
-  "text_en": "The5ers: the 15% discount offer ended on June 1, 2026, and no new offer has been announced as of the last check."
+  "text_en": "The5ers: the 15% discount offer ended on June 1, 2026, and no new offer has been announced as of the last check.",
+  "url": "https://the5ers.com"
  }
 ]
